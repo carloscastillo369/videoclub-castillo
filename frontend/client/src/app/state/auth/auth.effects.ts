@@ -41,7 +41,7 @@ export class AuthEffects {
                         this.store.dispatch(setLoadingSpinner({ status: false }));
                         this._authService.setDataUserInLocalStorage(data);
                         this.snackBar.openFromComponent( SnackBarComponent, {
-                            data: `Bienvenido: ${data.dataUser.name}!`,
+                            data: `Bienvenido: ${data.name}!`,
                             duration: this.duration*1000,
                             verticalPosition: this.verticalPosition,
                             horizontalPosition: this.horizontalPosition,
@@ -65,8 +65,7 @@ export class AuthEffects {
             ofType(signInSuccess), 
             tap((action) => {
                 const data = action?.data;
-                const dataUser = data?.dataUser;
-                const isAdmin = dataUser?.isadmin;
+                const isAdmin = data?.role;
                 if(action.redirect) {
                     this.router.navigate(isAdmin? ['/admin/list'] : ['/public/movies']);
                 }
@@ -95,7 +94,7 @@ export class AuthEffects {
                     map(data => {
                         this.store.dispatch(setLoadingSpinner({ status: false }));
                         this.snackBar.openFromComponent( SnackBarComponent, {
-                            data: "Usuario registrado con éxito!",
+                            data: `${data.msg}`,
                             duration: this.duration*1000,
                             verticalPosition: this.verticalPosition,
                             horizontalPosition: this.horizontalPosition,

@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 
 //Interfaz de película
@@ -50,7 +51,7 @@ export class ModalRentalTimeComponent implements OnInit {
       title: 'Película agregada!',
       showConfirmButton: false,
       timer: 2500
-    })
+    });
   }
 
   //Aumentar la cantidad de días de alquiler por botón (+)

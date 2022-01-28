@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTable } from '@angular/material/table';
+import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 
 //Interfaz de un item del carrito
@@ -14,7 +15,7 @@ import { CartService } from 'src/app/services/cart.service';
   templateUrl: './cart-table.component.html',
   styleUrls: ['./cart-table.component.css']
 })
-export class CartTableComponent implements OnInit {
+export class CartTableComponent implements OnInit, OnDestroy {
 
   //Variable de lista del carrito
   public cartMovies: CartI[] = [];
@@ -22,6 +23,9 @@ export class CartTableComponent implements OnInit {
   //Mat-Table
   public displayedColumns: string[] = ['posicion', 'descripcion', 'accion', 'cantidad', 'precio', 'subtotal'];
   @ViewChild(MatTable) table!: MatTable<any>;
+
+  //Variable para suscribirse y desuscribirse a un observable
+  private subscription: Subscription = new Subscription();
   
   constructor(private _cartService: CartService) { }
 
@@ -29,11 +33,18 @@ export class CartTableComponent implements OnInit {
     this.getCartList();
   }
 
+  //Desuscripción a un observable
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   //Obtener lista del carrito
   getCartList() {
-    this._cartService.getCartMoviesList().subscribe((res: CartI[]) => {
-      this.cartMovies = res;
-    })
+    this.subscription.add(
+      this._cartService.getCartMoviesList().subscribe((res: CartI[]) => {
+        this.cartMovies = res;
+      })
+    );
   }
 
   //Elminar un item del carrito

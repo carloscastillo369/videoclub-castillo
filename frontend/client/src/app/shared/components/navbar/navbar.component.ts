@@ -1,8 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
+import Swal from 'sweetalert2';
 
 //Interfaz datos de usuario
-import { DataUserI } from 'src/app/core/interfaces/user.interface';
+import { SignInResponseI } from 'src/app/core/interfaces/authResponse.interface';
 
 //Servicio de autenticación
 import { AuthService } from 'src/app/services/auth.service';
@@ -25,7 +26,7 @@ export class NavbarComponent implements OnInit {
   @Output() sidenavToggle = new EventEmitter;
   
   //Variable datos de usuario
-  public user!: Observable<DataUserI | null> ;
+  public dataUser!: Observable<SignInResponseI | null> ;
 
   //Variable si el usuario está autenticado
   public isAuthenticated!: Observable<boolean>;
@@ -34,7 +35,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.isAuthenticated = this.store.select(isAuthenticated);
-    this.user = this.store.select(getDataUser);
+    this.dataUser = this.store.select(getDataUser);
   }
 
   //Desplegar SideNav
@@ -44,6 +45,18 @@ export class NavbarComponent implements OnInit {
 
   //Cerrar sesión
   signOut(){
-    this.store.dispatch(SignOut());
+    Swal.fire({
+      title: '¿Quieres cerrar sesión en tu cuenta?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Cerrar sesión',
+      allowOutsideClick: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //Si se confirma, se cierra sesión
+        this.store.dispatch(SignOut());
+      }
+    })
   }
 }

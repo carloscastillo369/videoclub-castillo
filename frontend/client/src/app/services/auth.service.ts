@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 import { NewUserI, RegisteredUserI } from 'src/app/core/interfaces/user.interface';
 
 //Interfaz de respuesta al signin y al signout
-import { SignInResponseI, SignUpResponseI } from 'src/app/core/interfaces/authResponse.interface';
+import { GetDataUserResponseI, SignInResponseI, SignUpResponseI } from 'src/app/core/interfaces/authResponse.interface';
 
 
 @Injectable({
@@ -37,8 +37,8 @@ export class AuthService {
   }
 
   //Obtener datos usuario
-  getDataUser(){
-    return this.http.get<any>(this.urlAPI + 'getdata');
+  getDataUser(): Observable<GetDataUserResponseI>{
+    return this.http.get<GetDataUserResponseI>(this.urlAPI + 'getdata');
   }
 
   //Cerrar sesión usuario

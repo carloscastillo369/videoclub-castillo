@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 
 //Interfaz de película
@@ -18,29 +18,41 @@ import { getMovieById } from 'src/app/state/movies/movies.selector';
   templateUrl: './update-movie.component.html',
   styleUrls: ['./update-movie.component.css']
 })
-export class UpdateMovieComponent implements OnInit {
+export class UpdateMovieComponent implements OnInit, OnDestroy {
 
-  movie!: MovieI;
-  formUpdateMovie!: FormGroup;
+  //Variable película a ser actualizada
+  public movie!: MovieI;
+
+  //Variable de formulario para actualizar película
+  public formUpdateMovie!: FormGroup;
+
+  //Variable para suscribirse y desuscribirse a un observable
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private store: Store<AppState>,
-    private fb:FormBuilder,
-    private activatedRoute: ActivatedRoute,
+    private fb:FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.getMovie();
   }
 
+  //Desuscripción a un observable
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   //Obtener película por Id
   getMovie(){
-    this.store.select(getMovieById).subscribe(res => {
-      if(res) {
-        this.movie = res;
-        this.createForm(this.movie); 
-      }
-    });
+    this.subscription.add(
+      this.store.select(getMovieById).subscribe(res => {
+        if(res) {
+          this.movie = res;
+          this.createForm(this.movie); 
+        }
+      })
+    );
   }
 
   //Se llena el formulario con los datos obtenidos
@@ -80,11 +92,11 @@ export class UpdateMovieComponent implements OnInit {
       allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {
-        //Se actualiza la película
+        //Si se confirma, se actualiza la película
         this.store.dispatch(updateMovie({ movie, id }))
 
       } else if (result.isDenied) {
-        //Los cambios vuelven a su estado inicial
+        //Si se deniega, los cambios vuelven a su estado inicial
         this.formUpdateMovie = this.fb.group({
           title: [this.movie.title],
           stock: [this.movie.stock],

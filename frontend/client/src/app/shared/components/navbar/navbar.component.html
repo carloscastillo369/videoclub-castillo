@@ -16,13 +16,13 @@
         </div>
 
         <div fxFlex fxLayoutAlign="start">
-            <a class="logo-container" [routerLink]="(user | async)?.isadmin? ['/admin/list'] : ['/public/movies']">
+            <a class="logo-container" [routerLink]="(dataUser | async)?.role? ['/admin/list'] : ['/public/movies']">
                 <img class="logo-image" src="../../../assets/images/logo/Logo-White.png" alt="">
                 <p class="logo-name">HomeMovie</p>
             </a>
         </div>
 
-        <ng-container *ngIf="!(user | async)?.isadmin">
+        <ng-container *ngIf="!(dataUser | async)?.role">
             <div fxFlex fxLayoutAlign="end" fxHide.xs>
                 <button mat-button routerLink="/public/movies">
                     Películas
@@ -35,7 +35,7 @@
                 </button>
                 <mat-menu #menu="matMenu">
                     <button mat-menu-item disabled>
-                        <mat-icon>person</mat-icon> {{(user | async)?.name}}
+                        <mat-icon>person</mat-icon> {{(dataUser | async)?.name}}
                     </button>
                     <mat-divider></mat-divider>
                     <button mat-menu-item routerLink="/public/myorders">
@@ -52,7 +52,7 @@
             <app-cart-widget fxHide.gt-xs></app-cart-widget>
         </ng-container>
 
-        <ng-container *ngIf="(user | async)?.isadmin">
+        <ng-container *ngIf="(dataUser | async)?.role">
             <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
                 <button mat-button routerLink="/admin/list">
                     Películas

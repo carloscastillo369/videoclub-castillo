@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 import decode from 'jwt-decode';
-import { map, take } from 'rxjs/operators';
+import { take, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 //NgRx
@@ -14,11 +14,11 @@ import { isAuthenticated } from 'src/app/state/auth/auth.selector';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanActivate {
+export class PublicGuard implements CanActivate {
 
   constructor(
     private store: Store<AppState>,
-    private _authService: AuthService, 
+    private _authService: AuthService,  
     private router: Router
   ) {}
   
@@ -33,7 +33,7 @@ export class AdminGuard implements CanActivate {
           const expectedRole = route.data.expectedRole
           
           if(isAdmin !== expectedRole){
-            this.router.navigate(['/public'])
+            this.router.navigate(['/admin'])
             return false;
           }
     

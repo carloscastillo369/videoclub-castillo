@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 //Interfaz de película
 import { MovieI } from 'src/app/core/interfaces/movie.interface';
 
+//Servico de carrito
 import { CartService } from 'src/app/services/cart.service';
 
 //NgRx
@@ -16,7 +18,7 @@ import { getMovieById } from 'src/app/state/movies/movies.selector';
   templateUrl: './detail-movie-page.component.html',
   styleUrls: ['./detail-movie-page.component.css']
 })
-export class DetailMoviePageComponent implements OnInit {
+export class DetailMoviePageComponent implements OnInit, OnDestroy {
 
   //Varible de detalle de película
   public movie!: MovieI;
@@ -28,6 +30,9 @@ export class DetailMoviePageComponent implements OnInit {
   public hours: number = 0;
   public mins: number = 0;
 
+  //Variable para suscribirse y desuscribirse a un observable
+  private subscription: Subscription = new Subscription();
+
   constructor(
     private store: Store<AppState>,
     private _cartService: CartService
@@ -37,24 +42,33 @@ export class DetailMoviePageComponent implements OnInit {
     this.getMovie();
   }
 
+  //Desuscripción a un observable
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   //Obtener película por Id
   getMovie(){
-    this.store.select(getMovieById).subscribe(res => {
-      if(res) {
-        this.movie = res;
-        this.isMovieInCart(this.movie);
-      }
-    });
+    this.subscription.add(
+      this.store.select(getMovieById).subscribe(res => {
+        if(res) {
+          this.movie = res;
+          this.isMovieInCart(this.movie);
+        }
+      })
+    );
   }
 
   //Condición si una película ya fue agregada
   isMovieInCart(product: any) {
-    this._cartService.getCartMoviesList().subscribe(res => {
-      const filter = res.filter((i) => i.id == product._id);
-      if(filter.length == 1) {
-        this.addedMovie = true;
-      }
-    })
+    this.subscription.add(
+      this._cartService.getCartMoviesList().subscribe(res => {
+        const filter = res.filter((i) => i.id == product._id);
+        if(filter.length == 1) {
+          this.addedMovie = true;
+        }
+      })
+    );
   }
 
   //Pasar minutos a horas

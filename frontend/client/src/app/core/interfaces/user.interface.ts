@@ -13,12 +13,9 @@ export interface RegisteredUserI {
 }
 
 export interface DataUserI {
-    _id: string;
     name: string,
     email: string,
     address: string,
     phone: string,
-    isadmin: boolean,
-    createdAt: string, 
-    updatedAt: string,
+    isadmin: boolean
 }

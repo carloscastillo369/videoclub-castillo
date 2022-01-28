@@ -28,8 +28,7 @@ export class UserEffects {
             mergeMap((action) => {
                 return this._authService.getDataUser().pipe(
                     map((data) => {
-                        console.log(data);
-                        const user = data.user;
+                        const user = data.dataUser;
                         return loadUserSuccess({ user });
                     })
                 );

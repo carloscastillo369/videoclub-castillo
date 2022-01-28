@@ -4,7 +4,7 @@
     </a>    
 
     <ng-container *ngIf="isAuthenticated | async">
-        <ng-container *ngIf="!(user | async)?.isadmin">
+        <ng-container *ngIf="!(dataUser | async)?.role">
             <a mat-list-item class="nav-caption" routerLink="/public/movies" (click)="onSidenavClose()">
                 <mat-icon>theaters</mat-icon> <span>Peliculas</span>
             </a>
@@ -16,7 +16,7 @@
             </mat-list-item>
             <mat-menu #menu="matMenu" xPosition="after">
                 <button mat-menu-item disabled>
-                    <mat-icon>person</mat-icon> {{(user | async)?.name}}
+                    <mat-icon>person</mat-icon> {{(dataUser | async)?.name}}
                 </button>
                 <mat-divider></mat-divider>
                 <button mat-menu-item routerLink="/public/myorders" (click)="onSidenavClose()">
@@ -30,7 +30,7 @@
             </mat-menu>            
         </ng-container>
 
-        <ng-container *ngIf="(user | async)?.isadmin">
+        <ng-container *ngIf="(dataUser | async)?.role">
             <a mat-list-item class="nav-caption" routerLink="/admin/list" (click)="onSidenavClose()">
                 <mat-icon>theaters</mat-icon> <span>Películas</span> 
             </a>

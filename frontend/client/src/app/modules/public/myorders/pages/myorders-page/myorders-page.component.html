@@ -1,0 +1,36 @@
+<ng-container *ngIf="orders, else ProgressSpinner">
+    <div class="myorders-container">
+      <ng-container *ngIf="orders.length > 0">
+        <h3 class="myorders-text"> <mat-icon>shopping_basket</mat-icon> Mis pedidos</h3>
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let order of orders" hideToggle>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Pedido N° {{orders.indexOf(order) + 1}}
+              </mat-panel-title>
+              <mat-panel-description>
+                  <p class="order-description">Precio Total: $ {{(order.total).toFixed(2)}}</p>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+     
+            <app-orders-table [orders]="order.order"></app-orders-table>
+           
+          </mat-expansion-panel>
+        </mat-accordion>        
+      </ng-container>
+  
+      <ng-container *ngIf="orders.length == 0">
+        <div class="order-empty">
+          <h1 class="order-empty-text">No tiene ningún pedido de compra aún.</h1>
+          <mat-icon class="order-icon-empty">shopping_basket</mat-icon>
+          <p class="link-to-movies">
+            Vuelva a <a mat-raised-button [routerLink]="['/public/movies']"> Películas </a> para comprar o alquilar una película de nuestro catálogo.
+          </p>
+      </div>
+      </ng-container>
+    </div>
+  </ng-container>
+  
+  <ng-template #ProgressSpinner>
+    <app-loading-spinner></app-loading-spinner>
+  </ng-template>

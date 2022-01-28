@@ -14,24 +14,12 @@ exports.signUpUser = async (req, res) => {
             address: req.body.address,
             phone: req.body.phone
         }
-    
         const user = new User(newUser);
-        const createdUser = await user.save();
-        const dataUser = {
-            _id: createdUser._id,
-            name: createdUser.name,
-            email: createdUser.email,
-            address: createdUser.address,
-            phone: createdUser.phone,
-            isadmin: createdUser.isadmin,
-            createdAt: createdUser.createdAt, 
-            updatedAt: createdUser.updatedAt
-        }
+        await user.save();
         res.status(200).json({
-            msg: 'Usuario registrado correctamente',
-            dataUser: dataUser
+            msg: 'Usuario registrado con éxito!'
         })
-        console.log('Usuario registrado correctamente');
+        console.log('Usuario registrado con éxito!');
 
     } catch (err) {
         if (err && err.code === 11000){
@@ -47,50 +35,31 @@ exports.signUpUser = async (req, res) => {
 exports.signInUser = async (req, res) => {
     const expiresIn = 600; //Tiempo en segundos que expira el token (8 horas)
     const { email, password } = req.body;
-
-    try {
-        const user = await User.findOne({ email: email });
-        if(!user) {
+    const user = await User.findOne({ email: email });
+    if(!user) {
+        res.status(400).json({ 
+            msg : 'El correo no está registrado'
+        });
+        console.log('El correo no está registrado')
+    } else {
+        const validPassword = bcrypt.compareSync(password, user.password); //Se compara el password ingresado con el password encriptado
+        if(!validPassword) {
             res.status(400).json({ 
-                msg : 'El correo no está registrado'
+                msg : 'Contraseña incorrecta'
             });
-            console.log('El correo no está registrado')
+            console.log('Contraseña incorrecta')
         } else {
-            const validPassword = bcrypt.compareSync(password, user.password); //Se compara el password ingresado con el password encriptado
-            if(!validPassword) {
-                res.status(400).json({ 
-                    msg : 'Contraseña incorrecta'
-                });
-                console.log('Contraseña incorrecta')
-            } else {
-                const token = jwt.sign({ _id: user._id, isadmin: user.isadmin }, SECRET_KEY, { expiresIn: expiresIn });
-                if(token) {
-                    const dataUser = {
-                        _id: user._id,
-                        name: user.name,
-                        email: user.email,
-                        address: user.address,
-                        phone: user.phone,
-                        isadmin: user.isadmin,
-                        createdAt: user.createdAt, 
-                        updatedAt: user.updatedAt
-                    }
-                    res.status(200).json({
-                        token: token,
-                        dataUser: dataUser
-                    })
-                }
-                console.log(`Has iniciado sesión ${user.name}`);
+            const token = jwt.sign({ _id: user._id, isadmin: user.isadmin }, SECRET_KEY, { expiresIn: expiresIn });
+            if(token) {
+                res.status(200).json({
+                    token: token,
+                    role: user.isadmin,
+                    name: user.name
+                })
             }
+            console.log(`Has iniciado sesión ${user.name}`);
         }
-
-    } catch (err) {
-        res.status(500).json({
-            error: 'Algo salió mal'
-        })
-        console.log('Algo salió mal')
     }
-
 }
 
 //Obtener información del usuario
@@ -100,40 +69,21 @@ exports.getDataUser = async (req, res) => {
     if(!user) {
         res.send({ message: 'Usuario no encontrado' });
     } else {
-        /*
         const expiresIn = 600; //Tiempo en segundos que expira el token (8 horas)
         const token = jwt.sign({ id: user.id, isadmin: user.isadmin }, SECRET_KEY, { expiresIn: expiresIn });
-        
         if(token) {
             const dataUser = {
-                _id: user._id,
                 name: user.name,
                 email: user.email,
                 address: user.address,
                 phone: user.phone,
-                isadmin: user.isadmin,
-                createdAt: user.createdAt, 
-                updatedAt: user.updatedAt
+                isadmin: user.isadmin
             }
             res.status(200).json({
                 token: token,
                 dataUser: dataUser
             })
         }
-        */
-        const dataUser = {
-            _id: user._id,
-            name: user.name,
-            email: user.email,
-            address: user.address,
-            phone: user.phone,
-            isadmin: user.isadmin,
-            createdAt: user.createdAt, 
-            updatedAt: user.updatedAt
-        }
-        res.status(200).json({
-            user: dataUser
-        })
         console.log(`Se obtuvo los datos privados de ${user.name}`);
     }
 }

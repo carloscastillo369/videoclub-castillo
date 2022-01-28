@@ -9,7 +9,9 @@
           <h3 class="text-bold">Datos Personales:</h3>
           <mat-divider></mat-divider>
           <p class="text-title">Nombre: <span class="text-subtitle">{{userData.name}}</span> </p>
-          <p class="text-title">Email: <span class="text-subtitle">{{userData.email}}</span> </p>        
+          <p class="text-title">Email: <span class="text-subtitle">{{userData.email}}</span> </p>
+          <p class="text-title">Dirección: <span class="text-subtitle">{{userData.address}}</span> </p>
+          <p class="text-title">Teléfono: <span class="text-subtitle">{{userData.phone}}</span> </p>    
         </div>
       </div>
   
@@ -28,7 +30,7 @@
     </div>
   
     <div class="buttons-container">
-      <button mat-raised-button color="accent" class="btn-movies" routerLink="/movies">
+      <button mat-raised-button color="accent" class="btn-movies" routerLink="/public/movies">
         <mat-icon>shopping_cart</mat-icon> Seguir Comprando
       </button>
       <button mat-raised-button color="warn" (click)="payment(userData)" class="btn-Pay">

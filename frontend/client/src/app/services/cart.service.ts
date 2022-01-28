@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
+//Interfaz del carrito
 import { CartI } from 'src/app/core/interfaces/cart.interface';
+
+//Interfaz de película
 import { MovieI } from 'src/app/core/interfaces/movie.interface';
 
 
@@ -15,10 +18,12 @@ export class CartService {
 
   constructor() { }
 
+  //Obtener items del carrito
   getCartMoviesList() {
     return this.cartMoviesList.asObservable();
   }
 
+  //Agregar película al carrito
   addMovieToCart(product: MovieI, days: number) {
     const cartItem: CartI = {
       id: product._id, 
@@ -36,6 +41,7 @@ export class CartService {
     this.saveCartInLocalStorage();
   }
 
+  //Obtener precio total del carrito
   getTotalPrice() {
     let total = 0;
     this.cartArrayMovies.map((i:any) => {
@@ -44,6 +50,7 @@ export class CartService {
     return total;
   }
 
+  //Eliminar un item del carrito
   deleteCartItem(product: CartI) {
     this.cartArrayMovies.map((i:any, index:any)=>{
       if(product.id == i.id){
@@ -54,12 +61,14 @@ export class CartService {
     this.saveCartInLocalStorage();
   }
 
+  //Remover todo el carrito
   removeAllCart() {
     this.cartArrayMovies = [];
     this.cartMoviesList.next(this.cartArrayMovies);
     localStorage.removeItem('cart');
   }
 
+  //Aumentar los días de alquiler por botón (+)
   increaseQtyMovie(id:string) {
     const result = this.cartArrayMovies.filter(i => i.id == id);
     result[0].days += 1;
@@ -67,6 +76,7 @@ export class CartService {
     this.saveCartInLocalStorage();
   }
 
+  //Disminuir los días de alquiler por botón (-)
   decreaseQtyMovie(id:string) {
     const result = this.cartArrayMovies.filter(i => i.id == id);
     result[0].days -= 1;
@@ -74,6 +84,7 @@ export class CartService {
     this.saveCartInLocalStorage();
   }
 
+  //Cambiar los días de alquiler por ingreso de dígitos
   changeQtyMovie(id: string, days: number) {
     const result = this.cartArrayMovies.filter(i => i.id == id);
 
@@ -89,6 +100,7 @@ export class CartService {
     this.saveCartInLocalStorage();
   }
 
+  //Guardar carrito en el local storage
   saveCartInLocalStorage() {
     return localStorage.setItem('cart', JSON.stringify(this.cartArrayMovies));
   }

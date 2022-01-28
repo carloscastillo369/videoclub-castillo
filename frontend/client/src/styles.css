@@ -11,6 +11,13 @@ div, mat-card, mat-card-content { box-sizing: border-box; }
     margin: 7px;
 }
 
+.processing.mat-snack-bar-container {
+    background-color: #f44336;
+    color: #fff;
+    text-align: center;
+    margin: 7px;
+}
+
 .mat-form-field-underline::before {
     background-color: #fff !important;
 }

@@ -26,10 +26,16 @@ export class MoviesPageComponent implements OnInit {
   constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
+    this.getMovies();
+  }
+
+  //Obetner películas
+  getMovies() {
     this.movies = this.store.select(getMovies);
     this.store.dispatch(loadMovies());
   }
 
+  //Eliminar película por ID
   deleteMovie(id: string){
     Swal.fire({
       title: '¿Estás seguro?',
@@ -42,7 +48,7 @@ export class MoviesPageComponent implements OnInit {
       allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {
-        //Elimina película por ID
+        //Si se confirma, se elimina la película
         this.store.dispatch(deleteMovie({ id }));
 
         Swal.fire(

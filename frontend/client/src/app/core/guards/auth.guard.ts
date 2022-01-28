@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
+import { CanActivate, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 import decode from 'jwt-decode';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+
+//NgRx
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { isAuthenticated } from 'src/app/state/auth/auth.selector';
@@ -20,22 +22,12 @@ export class AuthGuard implements CanActivate {
     private router: Router
   ) {}
   
-  canActivate(): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+  canActivate(): Observable<boolean> {
     return this.store.select(isAuthenticated).pipe(
-      map((authenticate) => {
-        if(!authenticate) {
-          return this.router.createUrlTree([''])
-        }
-        return true;
-      })
-    );
-
-
-    /*return this._authService.isLogged().pipe(
       take(1),
-      map((isLogged: boolean) => {
-        if(isLogged) {
-          const token: any = this._authService.getToken();
+      map((isAuthenticated) => {
+        if(isAuthenticated) {
+          const token: any = this._authService.getTokenFromLocalStorage();
           const decodeToken: any = decode(token);
           const isAdmin = decodeToken.isadmin;
     
@@ -45,6 +37,6 @@ export class AuthGuard implements CanActivate {
           return true;
         }
       })
-    )*/
+    )
   }
 }
