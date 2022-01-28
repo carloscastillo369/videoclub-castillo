@@ -1,0 +1,42 @@
+.buttons-container {
+    width: 100%;
+    padding: 40px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    background-color: #212121;
+    border-radius: 10px;
+}
+
+button {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.btn-trailer {
+    background-color: #c4302b;
+    color: #fff;
+}
+
+.text {
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.product-add {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+    background-color: #212121;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.product-add > p {
+    margin-bottom: 0px;
+    color: #fff;
+}

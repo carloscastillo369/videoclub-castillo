@@ -17,17 +17,26 @@ exports.signUpUser = async (req, res) => {
     
         const user = new User(newUser);
         const createdUser = await user.save();
-    
+        const dataUser = {
+            _id: createdUser._id,
+            name: createdUser.name,
+            email: createdUser.email,
+            address: createdUser.address,
+            phone: createdUser.phone,
+            isadmin: createdUser.isadmin,
+            createdAt: createdUser.createdAt, 
+            updatedAt: createdUser.updatedAt
+        }
         res.status(200).json({
             msg: 'Usuario registrado correctamente',
-            data: createdUser
+            dataUser: dataUser
         })
         console.log('Usuario registrado correctamente');
 
     } catch (err) {
         if (err && err.code === 11000){
             res.status(500).json({
-                error: 'El correo ya ha sido registrado'
+                msg: 'El correo ya ha sido registrado'
             }) 
             console.log('El correo ya ha sido registrado');
         } 
@@ -36,7 +45,7 @@ exports.signUpUser = async (req, res) => {
 
 //Iniciar sesión 
 exports.signInUser = async (req, res) => {
-    const expiresIn = 28800; //Tiempo en segundos que expira el token (8 horas)
+    const expiresIn = 600; //Tiempo en segundos que expira el token (8 horas)
     const { email, password } = req.body;
 
     try {
@@ -54,12 +63,21 @@ exports.signInUser = async (req, res) => {
                 });
                 console.log('Contraseña incorrecta')
             } else {
-                const token = jwt.sign({ user }, SECRET_KEY, { expiresIn: expiresIn });
+                const token = jwt.sign({ _id: user._id, isadmin: user.isadmin }, SECRET_KEY, { expiresIn: expiresIn });
                 if(token) {
+                    const dataUser = {
+                        _id: user._id,
+                        name: user.name,
+                        email: user.email,
+                        address: user.address,
+                        phone: user.phone,
+                        isadmin: user.isadmin,
+                        createdAt: user.createdAt, 
+                        updatedAt: user.updatedAt
+                    }
                     res.status(200).json({
-                        success: true,
                         token: token,
-                        userCredentials: user
+                        dataUser: dataUser
                     })
                 }
                 console.log(`Has iniciado sesión ${user.name}`);
@@ -77,24 +95,45 @@ exports.signInUser = async (req, res) => {
 
 //Obtener información del usuario
 exports.getDataUser = async (req, res) => {
-    let id = req.userData.user._id;
+    let id = req.userData._id;
     const user = await User.findOne({ _id: id });
     if(!user) {
         res.send({ message: 'Usuario no encontrado' });
     } else {
-        const expiresIn = 28800; //Tiempo en segundos que expira el token (8 horas)
-        const token = jwt.sign({ user }, SECRET_KEY, { expiresIn: expiresIn });
+        /*
+        const expiresIn = 600; //Tiempo en segundos que expira el token (8 horas)
+        const token = jwt.sign({ id: user.id, isadmin: user.isadmin }, SECRET_KEY, { expiresIn: expiresIn });
         
-        res.json({user : {
-            name:user.name, 
-            email:user.email, 
-            address:user.address, 
-            phone:user.phone, 
-            isadmin:user.isadmin, 
-            createdAt: user.createdAt, 
-            updatedAt: user.updatedAt, 
-            token: token
+        if(token) {
+            const dataUser = {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                address: user.address,
+                phone: user.phone,
+                isadmin: user.isadmin,
+                createdAt: user.createdAt, 
+                updatedAt: user.updatedAt
+            }
+            res.status(200).json({
+                token: token,
+                dataUser: dataUser
+            })
         }
-        });
+        */
+        const dataUser = {
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            address: user.address,
+            phone: user.phone,
+            isadmin: user.isadmin,
+            createdAt: user.createdAt, 
+            updatedAt: user.updatedAt
+        }
+        res.status(200).json({
+            user: dataUser
+        })
+        console.log(`Se obtuvo los datos privados de ${user.name}`);
     }
 }

@@ -1,0 +1,9 @@
+<div class="modal">
+    <h1 >{{movieTitle}}</h1>
+    <div mat-dialog-content>
+      <iframe [src]="urlTrailer" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-raised-button color="primary" mat-dialog-close>Cerrar</button>
+    </div>
+</div>

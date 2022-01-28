@@ -1,0 +1,20 @@
+<ng-container >
+    <div class="body">
+        <mat-sidenav-container>
+            <mat-sidenav #sidenav>
+                <app-sidenav (sidenavClose)="sidenav.close()"></app-sidenav>
+            </mat-sidenav>
+            <mat-sidenav-content>
+                <div [ngClass]="[(isAuthenticated | async)? '' : 'wallpaper']">
+                    <app-navbar (sidenavToggle)="sidenav.toggle()"></app-navbar>
+                    <main [ngClass]="[(isAuthenticated | async)? 'page-content' : '']">
+                        <router-outlet></router-outlet>
+                    </main>
+                </div>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+    
+        <app-footer [hidden]="!(isAuthenticated | async)"></app-footer>   
+    </div>
+    <app-loading-spinner *ngIf="showLoading | async"></app-loading-spinner>
+</ng-container>

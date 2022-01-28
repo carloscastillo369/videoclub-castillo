@@ -1,0 +1,69 @@
+<mat-toolbar [ngClass]="[(isAuthenticated | async)? 'navbar' : 'initial-navbar']">
+    <ng-container *ngIf="!(isAuthenticated | async)">
+        <div fxFlex fxLayoutAlign="start">
+            <a class="logo-container" routerLink="/">
+                <img class="initial-logo-image" src="../../../assets/images/logo/Logo-White.png" alt="">
+                <p class="initial-logo-name">HomeMovie</p>
+            </a>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="isAuthenticated | async">
+        <div fxHide.gt-xs>
+            <button mat-icon-button (click)="onToggleSidenav()">
+                <mat-icon>menu</mat-icon>
+            </button>
+        </div>
+
+        <div fxFlex fxLayoutAlign="start">
+            <a class="logo-container" [routerLink]="(user | async)?.isadmin? ['/admin/list'] : ['/public/movies']">
+                <img class="logo-image" src="../../../assets/images/logo/Logo-White.png" alt="">
+                <p class="logo-name">HomeMovie</p>
+            </a>
+        </div>
+
+        <ng-container *ngIf="!(user | async)?.isadmin">
+            <div fxFlex fxLayoutAlign="end" fxHide.xs>
+                <button mat-button routerLink="/public/movies">
+                    Películas
+                </button>
+
+                <app-cart-widget></app-cart-widget>
+
+                <button mat-mini-fab color="accent" [matMenuTriggerFor]="menu" class="btn-user"> 
+                    <mat-icon>emoji_emotions</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item disabled>
+                        <mat-icon>person</mat-icon> {{(user | async)?.name}}
+                    </button>
+                    <mat-divider></mat-divider>
+                    <button mat-menu-item routerLink="/public/myorders">
+                        <mat-icon>shopping_basket</mat-icon>
+                        <span>Mis pedidos</span>
+                    </button>
+                    <button mat-menu-item (click)="signOut()">
+                        <mat-icon>lock_open</mat-icon>
+                        <span>Cerrar sesión</span>
+                    </button>
+                </mat-menu>
+            </div>
+
+            <app-cart-widget fxHide.gt-xs></app-cart-widget>
+        </ng-container>
+
+        <ng-container *ngIf="(user | async)?.isadmin">
+            <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+                <button mat-button routerLink="/admin/list">
+                    Películas
+                </button>
+                <button mat-button routerLink="/admin/orders">
+                    Pedidos
+                </button>
+                <button mat-button (click)="signOut()">
+                    <mat-icon>lock_open</mat-icon> Cerrar Sesión
+                </button>
+            </div>
+        </ng-container>
+    </ng-container>
+</mat-toolbar>

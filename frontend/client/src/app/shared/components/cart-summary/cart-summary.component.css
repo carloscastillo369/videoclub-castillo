@@ -1,0 +1,50 @@
+h3 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+h4 {
+    font-size: 15px;
+}
+
+.cartsummary-container {
+    width: 100%;
+    background-color: #212121;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.cartsummary-content {
+    display: flex;
+    width: 300px;
+    padding: 20px;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.cartsummary-title {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+
+.btn-Pay {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+.btn-movies {
+    width: 100%;
+    height: 50px;
+}

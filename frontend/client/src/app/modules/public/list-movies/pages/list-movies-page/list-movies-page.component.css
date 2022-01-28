@@ -1,0 +1,13 @@
+.list-movies {
+    padding: 20px 5px;
+}
+
+.item-movie {
+    padding: 5px;
+}
+
+@media (min-width: 600px){ 
+    .list-movies {
+        padding: 20px 16px;
+    }
+}

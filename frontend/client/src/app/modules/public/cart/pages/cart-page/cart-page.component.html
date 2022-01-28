@@ -1,0 +1,32 @@
+<div class="cart-content">
+    <ng-container *ngIf="totalItemsCart == 0">
+        <ng-container *ngTemplateOutlet="cartEmpty"></ng-container>
+    </ng-container>
+    
+    <ng-container *ngIf="totalItemsCart != 0">
+        <ng-container *ngTemplateOutlet="cartList"></ng-container>
+    </ng-container>
+</div>
+
+<ng-template #cartEmpty>
+    <div class="cart-empty">
+        <h1 class="cart-empty-text">Su carrito de compras está vacío.</h1>
+        <mat-icon class="cart-icon-empty">add_shopping_cart</mat-icon>
+        <p class="link-to-movies">
+          Vuelva a <a mat-raised-button [routerLink]="['/public/movies']"> Películas </a> para comprar o alquilar una película de nuestro catálogo.
+        </p>
+    </div>
+</ng-template>
+
+<ng-template #cartList>
+    <div class="cart-list-container #cartList">
+        <div fxLayout="row wrap" fxLayoutAlign="start center" class="cart-text">
+            <mat-icon>shopping_cart</mat-icon>
+            <span>Mi Carrito de compras ( {{totalItemsCart}} película{{totalItemsCart > 1? 's' : null}} )</span>
+        </div>  
+        <div fxLayout="row wrap" fxLayoutAlign="space-between">
+            <app-cart-table fxFlex="100" fxFlex.gt-sm="69"></app-cart-table>
+            <app-cart-summary fxFlex="100" fxFlex.gt-sm="30"></app-cart-summary>  
+        </div>
+    </div>
+</ng-template>

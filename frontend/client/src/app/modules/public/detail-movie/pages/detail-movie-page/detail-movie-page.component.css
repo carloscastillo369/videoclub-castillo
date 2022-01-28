@@ -1,0 +1,135 @@
+hr {
+    color: white;
+    height: 1px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0px;
+    margin: 16px 0;
+    opacity: 25%;
+}
+
+.spinner {
+    width: 100%;
+    height: calc(100vh - 164px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.detail-movie-container {
+    width: 100%;
+}
+
+.card {
+    width: 100%;
+    background-color: #212121;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.image-banner {
+    padding: 0 0 55%;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-color: #181821;
+    border-radius: 5px;
+}
+
+.card-content {
+    width: 100%;
+}
+
+.card-header {
+    width: 100%;
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+
+.poster {
+    width: 90px;
+    height: 130px;
+    margin-top: -10px;
+    position: relative;
+    z-index: 10;
+    float: left;
+}
+
+.poster > img {
+    width: 100%;
+    border-radius: 7px;
+}
+
+.principal-detail-movie {
+    width: calc(100% - 110px);
+    margin-left: 110px;
+    margin-top: -50px;
+}
+
+.principal-detail-movie > h1 {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 300;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.principal-detail-movie > p {
+    font-size: 12px;
+    margin-bottom: 2px;
+    color: #bbb;
+}
+
+.card-body {
+    padding: 0px 10px 15px;
+    color: #fff;
+}
+
+.extra-detail {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #212121;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.extra-detail > p {
+    font-weight: 500;
+}
+
+.extra-detail > p > span {
+    font-weight: 300;
+    font-style: italic;
+}
+
+@media (min-width: 600px) {
+    .image-banner {
+        padding: 0 0 30%;
+    }
+
+    .card-header {
+        margin-bottom: 35px;
+    }
+
+    .poster {
+        width: 120px;
+        height: 180px;
+    }
+
+    .principal-detail-movie {
+        width: calc(100% - 140px);
+        margin-left: 140px;
+    }
+
+    .principal-detail-movie > h1 {
+        margin-bottom: 40px;
+    }
+
+    .principal-detail-movie > p {
+        font-size: 14px;
+        margin-bottom: 4px;
+    }
+}

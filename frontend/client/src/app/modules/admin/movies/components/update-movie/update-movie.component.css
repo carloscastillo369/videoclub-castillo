@@ -1,0 +1,133 @@
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input[type=number] { -moz-appearance:textfield; }
+
+
+.spinner {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.updatemovie-container {
+    padding: 20px 20px;
+}
+
+.form-update {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px;
+    padding-bottom: 100px;
+    position: relative;
+    border: 1px solid #000;
+    border-radius: 10px;
+    background-color: #05070ccc;
+}
+
+input, label, textarea, mat-label, mat-icon, .span-prefix, .span-suffix, mat-datepicker-toggle {
+    color: #fff;
+    caret-color: #fff;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.322);
+}
+
+.align-right {
+    text-align: right;
+}
+
+.title {
+    color: #fff;
+    margin-top: 20px;
+}
+
+.main-data {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.main-data > mat-form-field {
+    width: 48%;
+}
+
+.number-data {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.number-data > mat-form-field {
+    width: 22%;
+}
+
+.textarea-data {
+    width: 100%;
+}
+
+.textarea-data > mat-form-field {
+    width: 100%;
+}
+
+.string-data {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.string-data > mat-form-field {
+    width: 31%;
+    margin-bottom: 20px;
+}
+
+.btn-save {
+    position: absolute;
+    width: 180px;
+    height: 45px;
+    bottom: 30px;
+    right: 30px;
+}
+
+.btn-save:disabled {
+    color: #242222af !important;
+    background-color: #706c6cc2 !important;
+}
+
+@media(max-width:700px){
+    .addmovie-container {
+        padding: 20px 5px;
+    }
+}
+
+@media(max-width:599px){
+    .title {
+        font-size: 16px;
+    }
+
+    .main-data > mat-form-field {
+        width: 100%;
+    }
+
+    .number-data > mat-form-field {
+        width: 100%;
+    }
+
+    .string-data > mat-form-field {
+        width: 100%;
+    }
+}

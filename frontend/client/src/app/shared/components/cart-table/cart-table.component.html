@@ -1,0 +1,60 @@
+<div class="table-container">
+    <table mat-table [dataSource]="cartMovies" class="table-content">
+      <ng-container matColumnDef="posicion">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td class="cell-center" mat-cell *matCellDef="let product"> {{cartMovies.indexOf(product) + 1}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="descripcion">
+        <th mat-header-cell *matHeaderCellDef> Descripción </th>
+        <td class="cell-product" mat-cell *matCellDef="let product">
+          <a class="link-detail" [routerLink]="['/public/detailmovie', product.id, product.title]">
+            <img class="cartitem-image" src={{product.image}} alt="">
+            <div class="cartitem-details">
+              <strong>{{product.title}}</strong>
+              <span class="text-detail">Año: {{product.year}}</span>
+              <span class="text-detail">Duración: {{MinToHours(product.runtime)}}</span>
+            </div>
+          </a>
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="accion">
+          <th mat-header-cell *matHeaderCellDef> Accion </th>
+          <td class="cell-center" mat-cell *matCellDef="let product"> 
+              <button mat-mini-fab color="warn" (click)="deleteCartItem(product)">
+                  <mat-icon>delete</mat-icon>
+              </button>
+          </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="cantidad">
+        <th mat-header-cell *matHeaderCellDef> Días </th>
+        <td mat-cell *matCellDef="let product">
+            <div class="counter">
+              <button mat-raised-button color="primary" (click)="decrease(product.id)" [disabled]="product.days == 1" class="btn-decrease">-</button>
+              <input type="number" [ngModel]="product.days" (ngModelChange)="changeQty($event, product.id)" [ngModelOptions]="{updateOn: 'blur'}" class="input-days">
+              <button mat-raised-button color="primary" (click)="increase(product.id)" [disabled]="product.days == 30" class="btn-increase">+</button>          
+            </div>
+        </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="precio">
+        <th mat-header-cell *matHeaderCellDef> Precio </th>
+        <td class="cell-right" mat-cell *matCellDef="let product"> {{product.price.toFixed(2)}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="subtotal">
+        <th mat-header-cell *matHeaderCellDef> Sub-Total </th>
+        <td class="cell-right" mat-cell *matCellDef="let product"> {{(product.price*product.days).toFixed(2)}} </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <button mat-raised-button color="warn" class="btn-removeAll" (click)="removeAllCart()">
+      <mat-icon>remove_shopping_cart</mat-icon> Vaciar Carrito
+    </button>  
+  </div>
+  

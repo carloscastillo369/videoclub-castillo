@@ -1,0 +1,53 @@
+<div class="sign-in-container">
+    <div *ngIf="errorMessage | async as error" class="error-message">
+        <p>{{error}}</p>
+    </div>
+    <div class="sign-in-form">
+        <form [formGroup]="formSignIn" (submit)="signIn()">
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <mat-icon matPrefix>email</mat-icon>
+                <input 
+                    matInput
+                    type="email"
+                    autocomplete="off"
+                    placeholder="someone@example.com"
+                    formControlName="email"
+                    [class.is-valid]="isValidField('email')"
+                    [class.is-invalid]="isInvalidField('email')"
+                >
+                <mat-error *ngIf="isInvalidField('email')">
+                    {{getErrorMessage('email')}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>Contraseña</mat-label>
+                <mat-icon matPrefix>vpn_key</mat-icon>
+                <input 
+                    matInput
+                    [type]="hide ? 'password' : 'text'"
+                    autocomplete="off"
+                    formControlName="password"
+                    [class.is-valid]="isValidField('password')"
+                    [class.is-invalid]="isInvalidField('password')"
+                >
+                <button mat-icon-button matSuffix type="button" (click)="hide = !hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="isInvalidField('password')">
+                    {{getErrorMessage('password')}}
+                </mat-error>
+            </mat-form-field>
+
+            <div>
+                <input type="checkbox">
+                <label> Recuérdame</label>
+            </div>
+            <button mat-raised-button color="primary" type="submit" class="btn btn-submit" [disabled]="formSignIn.invalid">Iniciar Sesión</button>
+        </form>
+        <div class="signup-button-container">
+            <p>¿Eres nuevo en HomeMovie?</p>
+            <button mat-raised-button color="warn" routerLink="/signup" class="btn">Crea tu cuenta de HomeMovie</button>
+        </div>
+    </div>
+</div>

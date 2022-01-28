@@ -1,0 +1,32 @@
+.body {
+    width: 100%;
+    margin: 0 auto;
+    background-color: #000;
+}
+
+.wallpaper {
+    width: 100%;
+    min-height: 100vh ;
+    background: linear-gradient(rgba(5, 7, 12, 0.6), rgba(5, 7, 12, 0.6)),
+    url(../assets/images/wallpaper/banner.jpg) no-repeat center center fixed;
+    background-size: cover;
+}
+
+.page-content {
+    width: 100%;
+    min-height: calc(100vh - 164px) ;
+    margin: 0 auto;
+    padding-top: 64px;
+    background-color: #181818;
+}
+
+mat-sidenav-container {
+    background-color: #181818;
+}
+
+mat-sidenav {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    background-color: inherit;
+}

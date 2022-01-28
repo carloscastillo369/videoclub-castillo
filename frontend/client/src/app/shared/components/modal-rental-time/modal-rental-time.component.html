@@ -1,0 +1,26 @@
+<div class="modal">
+    <button class="btn-close" mat-raised-button color="primary" mat-dialog-close>
+        <mat-icon>close</mat-icon>   
+    </button>
+    <div class="modal-header">
+        <img class="modal-image" src={{movie.posterimg}} alt="">
+        <div class="modal-details">
+          <strong>{{movie.title}}</strong>
+          <span class="text-detail">Año: {{movie.year}}</span>
+          <span class="text-detail">Duración: {{MinToHours(movie.runtime)}}</span>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-content>
+        <label>Ingrese la cantidad de días: </label>
+        <div class="counter">
+            <button mat-raised-button color="primary" (click)="decrease()" [disabled]="days == 1" class="btn-decrease">-</button>
+            <input type="number" [ngModel]="days" (ngModelChange)="changeQty($event)" [ngModelOptions]="{updateOn: 'blur'}" class="input-days">
+            <button mat-raised-button color="primary" (click)="increase()" [disabled]="days == 30" class="btn-increase">+</button>          
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <div mat-dialog-actions>
+        <button class="btn-add" mat-raised-button color="accent" mat-dialog-close (click)="rentMovie(movie._id, days)">Agregar</button>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="buttons-container">
+    <p class="text">Renta o compra las mejores películas.</p>
+    <button mat-raised-button class="btn-trailer" (click)="openModalTrailer(movie)">
+        <mat-icon>smart_display</mat-icon> Ver trailer
+    </button>
+    <ng-container *ngIf="!addedMovie">
+        <button mat-raised-button color="accent" (click)="openModalRentalTime(movie)">
+            ${{movie.price}} Alquilar 
+        </button>
+    </ng-container>
+    <ng-container *ngIf="addedMovie">
+        <div class="product-add">
+            <p>Ya has agregado esta película</p>
+        </div>
+    </ng-container>
+    <button mat-raised-button routerLink="/public/movies">
+        <mat-icon>add_shopping_cart</mat-icon> Seguir comprando
+    </button>
+    <button mat-raised-button color="primary" routerLink="/public/cart">
+        <mat-icon>shopping_cart</mat-icon> Ir al carrito
+    </button>
+</div>

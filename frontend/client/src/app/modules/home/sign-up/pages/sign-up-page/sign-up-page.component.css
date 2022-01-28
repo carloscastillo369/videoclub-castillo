@@ -1,0 +1,109 @@
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input[type=number] { -moz-appearance:textfield; }
+
+
+.sign-up-container {
+    max-width: 400px;
+    margin: 0px auto;
+    padding: 20px 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.error-message {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 15px;
+    background-color: #f44336;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-message > p {
+    font-size: 18px;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 0px;
+}
+
+.sign-up-form {
+    background: #05070ccc;
+    padding: 30px;
+    border-radius: 10px;
+}
+
+mat-form-field {
+    width: 100%;
+    height: 90px;
+}
+
+mat-icon {
+    margin-right: 8px;
+}
+
+input, label, mat-label, mat-icon {
+    color: #fff;
+    caret-color: #fff;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.322);
+}
+
+.signup-button-container {
+    color: #fff;
+    text-align: center;
+}
+
+.signin-button-container {
+    color: #fff;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.btn {
+    width: 100%;
+}
+
+.btn-submit {
+    margin-top: 20px;
+}
+
+.btn:disabled {
+    color: #242222af !important;
+    background-color: #706c6cc2 !important;
+}
+
+@media (min-width: 600px){
+    .sign-up-container {
+        max-width: 800px;
+    }
+
+    .error-message {
+        width: 50%;
+    }
+
+    .form {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    mat-form-field {
+        width: 48%;
+        height: 90px;
+    }
+
+    .btn {
+        width: 50%;
+    }
+    
+}

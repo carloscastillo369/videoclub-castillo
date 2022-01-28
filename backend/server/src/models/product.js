@@ -2,10 +2,8 @@ const mongoose = require('mongoose');
 
 const productSchema = mongoose.Schema({
     title: String,
-    purchasestock: Number,
-    rentalstock: Number,
-    purchaseprice: Number,
-    rentalprice: Number,
+    stock: Number,
+    price: Number,
     year: Number,
     runtime: Number,
     plot: String,   

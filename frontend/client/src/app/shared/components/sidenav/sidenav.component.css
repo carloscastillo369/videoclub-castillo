@@ -1,0 +1,11 @@
+button {
+    width: 100%;
+}
+
+.nav-caption {
+    color: #fff;
+}
+
+.mat-list-item {
+    padding-left: 8px !important;
+}

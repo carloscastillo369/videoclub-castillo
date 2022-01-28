@@ -1,0 +1,122 @@
+<div class="addmovie-container">
+    <button mat-raised-button color="primary" routerLink="/admin/list">
+        <mat-icon>arrow_back</mat-icon> Regresar
+    </button>
+    
+    <h1 class="title">Completar los datos:</h1>
+    
+    <div class="form-add">
+        <form [formGroup]="formAddMovie" (submit)="saveMovie()">
+            <button [disabled]="formAddMovie.invalid" class="btn-save" type="submit" mat-raised-button color="primary" >
+                Guardar
+            </button>
+            <div class="main-data">   
+                <mat-form-field appearance="fill">
+                    <mat-label>Título</mat-label>
+                    <input type="text" formControlName="title" matInput autocomplete="off">
+                </mat-form-field>
+            </div>
+    
+            <div class="number-data">
+                <mat-form-field appearance="fill">
+                    <mat-label>Stock</mat-label>
+                    <input type="number" class="align-right" formControlName="stock" matInput autocomplete="off">
+                </mat-form-field>
+    
+                <mat-form-field appearance="fill" floatLabel="always">
+                    <mat-label>Precio</mat-label>
+                    <span class="span-prefix" matPrefix>$&nbsp;</span>
+                    <span class="span-suffix" matSuffix>.00</span>
+                    <input type="number" class="align-right" formControlName="price" matInput placeholder="0" autocomplete="off">
+                </mat-form-field>
+    
+                <mat-form-field appearance="fill">
+                    <mat-label>Año</mat-label>
+                    <input type="number" class="align-right" formControlName="year" matInput autocomplete="off">
+                </mat-form-field>
+    
+                <mat-form-field appearance="fill">
+                    <mat-label>Duración</mat-label>
+                    <span class="span-suffix" matSuffix>&nbsp;min.</span>
+                    <input type="number" class="align-right" formControlName="runtime" matInput autocomplete="off">
+                </mat-form-field>
+            </div>
+    
+            <div class="textarea-data">
+                <mat-form-field appearance="fill">
+                    <mat-label>Trama</mat-label>
+                    <textarea formControlName="plot" matInput></textarea>
+                </mat-form-field>
+            </div>
+    
+            <div class="string-data">
+                <mat-form-field appearance="fill">
+                    <mat-label>Clasificación</mat-label>
+                    <input type="text" formControlName="rated" matInput autocomplete="off">
+                </mat-form-field>
+            
+                <mat-form-field appearance="fill">
+                    <mat-label>Fecha Lanzamiento</mat-label>
+                    <input type="text" formControlName="released" matInput [matDatepicker]="picker" autocomplete="off">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            
+                <mat-form-field appearance="fill">
+                    <mat-label>Género</mat-label>
+                    <input type="text" formControlName="genre" matInput autocomplete="off">
+                </mat-form-field>
+            
+                <mat-form-field appearance="fill">
+                    <mat-label>Director</mat-label>
+                    <input type="text" formControlName="director" matInput autocomplete="off">
+                </mat-form-field>
+            
+                <mat-form-field appearance="fill">
+                    <mat-label>Guionista</mat-label>
+                    <input type="text" formControlName="writer" matInput autocomplete="off">
+                </mat-form-field>
+            
+                <mat-form-field appearance="fill">
+                    <mat-label>Actores</mat-label>
+                    <input type="text" formControlName="actors" matInput autocomplete="off">
+                </mat-form-field>
+            
+                <mat-form-field appearance="fill">
+                    <mat-label>Idioma</mat-label>
+                    <input type="text" formControlName="language" matInput autocomplete="off">
+                </mat-form-field>
+            
+                <mat-form-field appearance="fill">
+                    <mat-label>País</mat-label>
+                    <input type="text" formControlName="country" matInput autocomplete="off">
+                </mat-form-field>
+            
+                <mat-form-field appearance="fill">
+                    <mat-label>Premios</mat-label>
+                    <input type="text" formControlName="awards" matInput autocomplete="off">
+                </mat-form-field>
+            
+                <mat-form-field appearance="fill">
+                    <mat-label>Imagen Card</mat-label>
+                    <input type="text" formControlName="cardimg" matInput autocomplete="off">
+                </mat-form-field>
+            
+                <mat-form-field appearance="fill">
+                    <mat-label>Imagen Poster</mat-label>
+                    <input type="text" formControlName="posterimg" matInput autocomplete="off">
+                </mat-form-field>
+            
+                <mat-form-field appearance="fill">
+                    <mat-label>Imagen Banner</mat-label>
+                    <input type="text" formControlName="bannerimg" matInput autocomplete="off">
+                </mat-form-field>
+            
+                <mat-form-field appearance="fill">
+                    <mat-label>URL Trailer</mat-label>
+                    <input type="text" formControlName="urltrailer" matInput autocomplete="off">
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+</div>

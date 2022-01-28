@@ -1,0 +1,24 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+div, mat-card, mat-card-content { box-sizing: border-box; }
+
+.success.mat-snack-bar-container {
+    background-color: #3f51b5;
+    color: #fff;
+    text-align: center;
+    margin: 7px;
+}
+
+.mat-form-field-underline::before {
+    background-color: #fff !important;
+}
+
+.mat-form-field-flex {
+    background-color: #51566180 !important;
+}
+
+.mat-spinner circle {
+    stroke: #fff;
+}

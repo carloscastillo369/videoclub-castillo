@@ -1,0 +1,4 @@
+<a mat-button routerLink="/public/cart">
+    <mat-icon matBadge="0" matBadgeColor="primary" *ngIf="totalItemsCart == 0">add_shopping_cart</mat-icon>
+    <mat-icon matBadge={{totalItemsCart}} matBadgeColor="primary" *ngIf="totalItemsCart != 0">shopping_cart</mat-icon>
+</a>

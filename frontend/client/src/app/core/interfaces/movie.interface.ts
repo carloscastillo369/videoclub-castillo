@@ -1,0 +1,22 @@
+export interface MovieI {
+    _id: string,
+    title: string,
+    stock: number,
+    price: number,
+    year: number,
+    runtime: number,
+    plot: string,   
+    rated: string,
+    released: string,
+    genre: string,
+    director: string,
+    writer: string,
+    actors: string,
+    language:  string,
+    country: string,
+    awards: string,
+    cardimg: string,
+    posterimg: string,
+    bannerimg: string,
+    urltrailer: string  
+}

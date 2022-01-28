@@ -1,0 +1,136 @@
+<div class="sign-up-container">
+    <div *ngIf="errorMessage | async as error" class="error-message">
+        <p>{{error}}</p>
+    </div>
+    <div class="sign-up-form">
+        <form [formGroup]="formSignUp" (submit)="signUp()">
+            <div class="form">
+                <mat-form-field appearance="fill">
+                    <mat-label>Nombre</mat-label>
+                    <mat-icon matPrefix>person</mat-icon>
+                    <input 
+                        matInput
+                        type="text"
+                        autocomplete="off"
+                        formControlName="name"
+                        [class.is-valid]="isValidField('name')"
+                        [class.is-invalid]="isInvalidField('name')"
+                    >
+                    <mat-error *ngIf="isInvalidField('name')">
+                        {{getErrorMessage('name')}}
+                    </mat-error>
+                </mat-form-field>
+    
+                <mat-form-field appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <mat-icon matPrefix>email</mat-icon>
+                    <input 
+                        matInput
+                        type="email"
+                        autocomplete="off"
+                        placeholder="someone@example.com"
+                        formControlName="email"
+                        [class.is-valid]="isValidField('email')"
+                        [class.is-invalid]="isInvalidField('email')"
+                    >
+                    <mat-error *ngIf="isInvalidField('email')">
+                        {{getErrorMessage('email')}}
+                    </mat-error>
+                </mat-form-field>
+    
+                <mat-form-field appearance="fill">
+                    <mat-label>Dirección</mat-label>
+                    <mat-icon matPrefix>location_on</mat-icon>
+                    <input 
+                        matInput
+                        type="text"
+                        autocomplete="off"
+                        formControlName="address"
+                        [class.is-valid]="isValidField('address')"
+                        [class.is-invalid]="isInvalidField('address')"
+                    >
+                    <mat-error *ngIf="isInvalidField('address')">
+                        {{getErrorMessage('address')}}
+                    </mat-error>
+                </mat-form-field>
+    
+                <mat-form-field appearance="fill">
+                    <mat-label>Teléfono</mat-label>
+                    <mat-icon matPrefix>phone</mat-icon>
+                    <input 
+                        matInput
+                        type="number"
+                        autocomplete="off"
+                        formControlName="phone"
+                        [class.is-valid]="isValidField('phone')"
+                        [class.is-invalid]="isInvalidField('phone')"
+                    >
+                    <mat-error *ngIf="isInvalidField('phone')">
+                        {{getErrorMessage('phone')}}
+                    </mat-error>
+                </mat-form-field>
+    
+                <mat-form-field appearance="fill">
+                    <mat-label>Contraseña</mat-label>
+                    <mat-icon matPrefix>vpn_key</mat-icon>
+                    <input 
+                        matInput
+                        [type]="hide1 ? 'password' : 'text'"
+                        autocomplete="off"
+                        formControlName="password"
+                        [class.is-valid]="isValidField('password')"
+                        [class.is-invalid]="isInvalidField('password')"
+                    >
+                    <button mat-icon-button matSuffix type="button" (click)="hide1 = !hide1">
+                        <mat-icon>{{hide1 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="isInvalidField('password')">
+                        {{getErrorMessage('password')}}
+                    </mat-error>
+                </mat-form-field>
+    
+                <mat-form-field appearance="fill">
+                    <mat-label>Confirmar contraseña</mat-label>
+                    <mat-icon matPrefix>vpn_key</mat-icon>
+                    <input 
+                        matInput
+                        [type]="hide2 ? 'password' : 'text'"
+                        autocomplete="off"
+                        formControlName="confirmPassword"
+                        [errorStateMatcher]="errorMatcher"
+                        [class.is-valid]="isValidField('confirmPassword')"
+                        [class.is-invalid]="isInvalidField('confirmPassword')"
+                    >
+                    <button mat-icon-button matSuffix type="button" (click)="hide2 = !hide2">
+                        <mat-icon>{{hide2 ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="isInvalidField('confirmPassword')">
+                        {{getErrorMessage('confirmPassword')}}
+                    </mat-error>
+                </mat-form-field>
+    
+                <div>
+                    <input 
+                        type="checkbox" 
+                        formControlName="checkbox"
+                        [class.is-invalid]="isInvalidField('checkbox')"
+                    >
+                    <label>
+                        Acepto los términos y condiciones
+                    </label>
+                    <mat-error *ngIf="isInvalidField('checkbox')">
+                        {{getErrorMessage('checkbox')}}
+                    </mat-error>
+                </div>
+            </div>
+
+            <div class="signup-button-container">
+                <button mat-raised-button color="warn" type="submit" class="btn btn-submit" [disabled]="formSignUp.invalid">Crea tu cuenta de HomeMovie</button>
+            </div>
+        </form>
+        <div class="signin-button-container">
+            <p>¿Ya tienes una cuenta en HomeMovie?</p>
+            <button mat-raised-button color="primary" routerLink="/signin" class="btn">Ingresa a tu cuenta de HomeMovie</button>
+        </div>
+    </div>
+</div>

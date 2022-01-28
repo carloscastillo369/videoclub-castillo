@@ -1,0 +1,41 @@
+<ng-container *ngIf="movie, else ProgressSpinner">
+    <div class="detail-movie-container" fxLayout="row wrap" fxLayoutAlign.gt-xs="space-between">
+        <div fxFlex="100" fxFlex.gt-sm="59" class="card">
+            <div class="image-banner" style="background-image: linear-gradient(rgba(41, 128, 185, 0), rgb(0, 0, 0)), url({{movie.bannerimg}});">
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <div class="poster">
+                        <img src={{movie.posterimg}}>
+                    </div>
+
+                    <div class="principal-detail-movie">
+                        <h1>{{movie.title}}</h1>
+                        <p>{{movie.genre}}</p>
+                        <p>Clasificación: {{movie.rated}}</p>
+                        <p>Duración: {{hours}} hr{{hours > 1? 's' : null}}  {{mins}} min</p>     
+                    </div>    
+                </div>
+                <div class="card-body">
+                    <hr>
+                    <h2>Sinopsis</h2>
+                    <p>{{movie.plot}}</p>
+                </div>          
+            </div>
+        </div>
+
+        <app-buttons-function fxFlex="100" fxFlex.gt-xs="49" fxFlex.gt-sm="40" fxLayoutAlign="center" [movie]="movie" [addedMovie]="addedMovie"></app-buttons-function>
+        
+        <div fxFlex="100" fxFlex.gt-xs="49" fxFlex.gt-sm="59" class="extra-detail">
+            <p>Director: <span>{{movie.director}}</span> </p>
+            <p>Actores: <span>{{movie.actors}}</span> </p>
+            <p>Idioma: <span>{{movie.language}}</span> </p>
+            <p>País: <span> {{movie.country}}</span> </p>
+            <p>Premios: <span>{{movie.awards}}</span> </p>   
+        </div>
+    </div>
+</ng-container>
+
+<ng-template #ProgressSpinner>
+    <app-loading-spinner></app-loading-spinner>
+</ng-template>
