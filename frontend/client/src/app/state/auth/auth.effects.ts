@@ -129,7 +129,6 @@ export class AuthEffects {
             ofType(SignOut), 
             map((action) => {
                 this._authService.signOut();
-                this.router.navigate(['/']);
             })
         );
     }, {dispatch: false})

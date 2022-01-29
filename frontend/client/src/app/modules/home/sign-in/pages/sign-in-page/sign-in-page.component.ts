@@ -5,6 +5,9 @@ import { Observable } from 'rxjs';
 //Interfaz de usuario registrado
 import { RegisteredUserI } from 'src/app/core/interfaces/user.interface';
 
+//Servicio de autenticación
+import { AuthService } from 'src/app/services/auth.service';
+
 //NgRx
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
@@ -48,17 +51,26 @@ export class SignInPageComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private fb:FormBuilder
+    private fb:FormBuilder,
+    private _authService: AuthService
   ) { }
 
   ngOnInit(): void {
     this.ServerErrorMessage();
+    this.ExpiredTokenMessage();
   }
 
   //Mensaje de error desde el servidor
   ServerErrorMessage() {
     this.errorMessage = this.store.select(getErrorMessage);
     this.store.dispatch(setErrorMessage({ message: '' }));
+  }
+  
+  //Mensaje si el token ha expirado
+  ExpiredTokenMessage(){
+    this._authService.messageTokenExpired().subscribe(res => {
+      this.store.dispatch(setErrorMessage({message: res}));
+    })
   }
 
   //Iniciar sesión con email y password

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 //Interfaz de nuevo usuario y usuario registrado
@@ -19,9 +20,12 @@ export class AuthService {
   private URL_BASE: string = !environment.production? 'http://localhost:8080' : '';
   private urlAPI = this.URL_BASE + '/api/users/';
 
+  private messageTokenExpired$ = new BehaviorSubject<string>('');
+
   constructor(
     private http: HttpClient,
-    private helper: JwtHelperService
+    private helper: JwtHelperService,
+    private router: Router
   ) {
     this.checkToken();
   }
@@ -46,6 +50,7 @@ export class AuthService {
     this.removeToken();
     this.removeDataUser();
     localStorage.removeItem('cart');
+    this.router.navigate(['/signin']);
   }
 
   //Verificar si el token a expirado
@@ -55,8 +60,13 @@ export class AuthService {
       const isExpired = this.helper.isTokenExpired(userToken);
       if(isExpired) {
         this.signOut();
+        this.messageTokenExpired$.next('Tu sesión ha expirado, vuelve a iniciar sesión');
       }
     }
+  }
+
+  messageTokenExpired() {
+    return this.messageTokenExpired$.asObservable();
   }
 
   //Guardar token en el localstorage

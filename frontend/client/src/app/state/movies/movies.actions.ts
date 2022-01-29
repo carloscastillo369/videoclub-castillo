@@ -1,8 +1,8 @@
 import { createAction, props } from "@ngrx/store";
 import { MovieI } from "src/app/core/interfaces/movie.interface";
 
-export const LOAD_MOVIES = '[ListMovies page] Load movies';
-export const LOAD_MOVIES_SUCCESS = '[ListMovies page] Load movies success';
+export const LOAD_MOVIES = '[ListMovies | Movies page] Load movies';
+export const LOAD_MOVIES_SUCCESS = '[ListMovies | Movies page] Load movies success';
 
 export const ADD_MOVIE_ACTION = '[AddMovie page] Add movie';
 export const ADD_MOVIE_SUCCESS = '[AddMovie page] Add movie success';

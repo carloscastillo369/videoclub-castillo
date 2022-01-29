@@ -33,7 +33,7 @@ exports.signUpUser = async (req, res) => {
 
 //Iniciar sesión 
 exports.signInUser = async (req, res) => {
-    const expiresIn = 600; //Tiempo en segundos que expira el token (8 horas)
+    const expiresIn = 28800; //Tiempo en segundos que expira el token (8 horas)
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
     if(!user) {
@@ -69,7 +69,7 @@ exports.getDataUser = async (req, res) => {
     if(!user) {
         res.send({ message: 'Usuario no encontrado' });
     } else {
-        const expiresIn = 600; //Tiempo en segundos que expira el token (8 horas)
+        const expiresIn = 28800; //Tiempo en segundos que expira el token (8 horas)
         const token = jwt.sign({ id: user.id, isadmin: user.isadmin }, SECRET_KEY, { expiresIn: expiresIn });
         if(token) {
             const dataUser = {

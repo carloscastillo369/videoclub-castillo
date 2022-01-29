@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 
 //Interfaz de película
@@ -17,11 +19,18 @@ import { deleteMovie, loadMovies } from 'src/app/state/movies/movies.actions';
   templateUrl: './movies-page.component.html',
   styleUrls: ['./movies-page.component.css']
 })
-export class MoviesPageComponent implements OnInit {
+export class MoviesPageComponent implements OnInit, OnDestroy {
 
-  public movies!: Observable<MovieI[]>;
+  //Variable lista de películas
+  public movies!: MovieI[];
 
+  //Mat-Table
   displayedColumns: string[] = ['id','titulo', 'accion'];
+  dataSource!: MatTableDataSource<any>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  //Variable para suscribirse y desuscribirse a un observable
+  private subscription: Subscription = new Subscription();
 
   constructor(private store: Store<AppState>) { }
 
@@ -29,9 +38,20 @@ export class MoviesPageComponent implements OnInit {
     this.getMovies();
   }
 
+  //Desuscripción a un observable
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   //Obetner películas
   getMovies() {
-    this.movies = this.store.select(getMovies);
+    this.subscription.add(
+      this.store.select(getMovies).subscribe(res => {
+        this.movies = res;
+        this.dataSource = new MatTableDataSource(this.movies);
+        this.dataSource.paginator = this.paginator;
+      })
+    );
     this.store.dispatch(loadMovies());
   }
 

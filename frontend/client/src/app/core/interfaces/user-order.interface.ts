@@ -1,16 +1,8 @@
 import { OrderI } from "./order.interface";
+import { DataUserI } from './user.interface';
 
 export interface UserOrderI {
     _id: string,
-    user: {
-        name: string,
-        email: string,
-        address: string,
-        phone: string,
-        isadmin: boolean,
-        createdAt: string, 
-        updatedAt: string,
-        token: string,
-    },
+    user: DataUserI,
     order: Array<OrderI>
 }

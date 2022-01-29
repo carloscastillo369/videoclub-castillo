@@ -13,6 +13,7 @@ export interface RegisteredUserI {
 }
 
 export interface DataUserI {
+    _id: string,
     name: string,
     email: string,
     address: string,
