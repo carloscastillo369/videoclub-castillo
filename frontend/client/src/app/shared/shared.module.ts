@@ -17,6 +17,8 @@ import { CartTableComponent } from './components/cart-table/cart-table.component
 import { ModalRentalTimeComponent } from './components/modal-rental-time/modal-rental-time.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { OrdersTableComponent } from './components/orders-table/orders-table.component';
+import { EffectsModule } from '@ngrx/effects';
+import { CartEffects } from '../state/cart/cart.effects';
 
 
 
@@ -41,7 +43,8 @@ import { OrdersTableComponent } from './components/orders-table/orders-table.com
     MaterialModule,
     RouterModule,
     FlexLayoutModule,
-    FormsModule
+    FormsModule,
+    EffectsModule.forFeature([CartEffects])
   ],
   exports: [
     SnackBarComponent,

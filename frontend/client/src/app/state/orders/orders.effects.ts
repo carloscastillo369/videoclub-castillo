@@ -1,27 +1,23 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { filter, map, mergeMap, switchMap, withLatestFrom } from "rxjs/operators";
-import { of } from "rxjs";
+import { filter, map, mergeMap, switchMap } from "rxjs/operators";
 import Swal from 'sweetalert2';
 
 //Servicio api_películas
 import { OrderService } from "src/app/services/order.service";
 
-//NgRx
-import { Store } from "@ngrx/store";
-import { AppState } from "src/app/store/app.state";
-import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { addOrder, addOrderSuccess, loadOrders, loadOrdersSuccess } from "./orders.actions";
-import { RouterNavigatedAction, ROUTER_NAVIGATION } from "@ngrx/router-store";
-import { getOrders } from "./orders.selector";
-import { dummyAction } from "../auth/auth.actions";
+//Sevicio de autenticación
 import { AuthService } from "src/app/services/auth.service";
+
+//NgRx
+import { Actions, createEffect, ofType } from "@ngrx/effects";
+import { addOrder, addOrderSuccess, loadMyOrders, loadMyOrdersSuccess, loadOrders, loadOrdersSuccess } from "./orders.actions";
+import { RouterNavigatedAction, ROUTER_NAVIGATION } from "@ngrx/router-store";
 
 
 @Injectable()
 export class OrdersEffects {
     constructor(
-        private store: Store<AppState>,
         private actions$: Actions,
         private _ordeService: OrderService,
         private _authService: AuthService,
@@ -32,16 +28,12 @@ export class OrdersEffects {
     loadOrders$ = createEffect(() => {
         return this.actions$.pipe(
             ofType(loadOrders),
-            withLatestFrom(this.store.select(getOrders)), //evitar llamadas al api http si la data ya está en el store
-            mergeMap(([action, orders]) => {
-                if(!orders.length || orders.length === 1) {
-                    return this._ordeService.getOrder().pipe(
-                        map((orders) => {
-                            return loadOrdersSuccess({ orders });
-                        })
-                    );
-                }
-                return of(dummyAction());
+            mergeMap((action) => {
+                return this._ordeService.getOrder().pipe(
+                    map((orders) => {
+                        return loadOrdersSuccess({ orders });
+                    })
+                );
             })
         );
     });
@@ -89,16 +81,28 @@ export class OrdersEffects {
             map((r: any) => {
                 return r.payload.routerState['params']['id'];
             }),
-            withLatestFrom(this.store.select(getOrders)), //evitar llamadas al api http si la data ya está en el store
-            switchMap(([id, orders]) => {
-                if(!orders.length) {
-                    return this._ordeService.getOrder(id).pipe(
-                        map((orders) => {
-                            return loadOrdersSuccess({ orders });
-                        })
-                    );
-                }
-                return of(dummyAction());
+            switchMap((id) => {
+                return this._ordeService.getOrder(id).pipe(
+                    map((orders) => {
+                        return loadOrdersSuccess({ orders });
+                    })
+                );
+            })
+        );
+    });
+
+    loadMyOrders$ = createEffect(() => {
+        return this.actions$.pipe(
+            ofType(loadMyOrders),
+            mergeMap((action) => {
+                const dataUser = this._authService.getDataUserFromLocalStorage();
+                const email = dataUser.email;
+                return this._ordeService.getMyOrders(email).pipe(
+                    map((orders) => {
+                        const myorders = orders;
+                        return loadMyOrdersSuccess({ myorders });
+                    })
+                );
             })
         );
     });

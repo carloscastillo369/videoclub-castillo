@@ -20,18 +20,7 @@ export class ApiMoviesService {
 
   //Obtener películas o película de la base de datos
   getMovie(id?: string|undefined): Observable<MovieI[]>{
-    return this.http.get<MovieI[]>(this.urlAPI + (id||'')).pipe(
-      map((data: MovieI[]) => {
-        const movies: MovieI[] = [];
-        data.forEach(elem => {
-          if(elem.stock != 0) {
-            movies.push(elem);
-          }
-        })
-        return movies;
-      })
-    )
-    ;
+    return this.http.get<MovieI[]>(this.urlAPI + (id||''));
   }
 
   //Guardar película en la base de datos
@@ -40,12 +29,12 @@ export class ApiMoviesService {
   }
 
   //Actualizar película en la base de datos
-  updateMovie(movie: any, id: string){
-    return this.http.put<any>(this.urlAPI + id, movie);
+  updateMovie(movie: MovieI | any, id: string): Observable<MovieI>{
+    return this.http.put<MovieI>(this.urlAPI + id, movie);
   }
 
   //Eliminar película de la base de datos
-  deleteMovie(id: string){
+  deleteMovie(id: string): Observable<MovieI> {
     return this.http.delete<MovieI>(this.urlAPI + id);
   }
 

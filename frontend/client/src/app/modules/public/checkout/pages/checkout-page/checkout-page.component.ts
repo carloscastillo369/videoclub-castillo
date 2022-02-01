@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable, Subscription } from 'rxjs';
-import Swal from 'sweetalert2';
 
 //Interfaz de datos usuario y pedido
 import { DataUserI } from 'src/app/core/interfaces/user.interface';
@@ -93,9 +92,9 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
   }
 
   //Realizar pedido de compra
-  payment(user: DataUserI ) {
-    this.subscription.add(
-      this._orderService.saveOrder(user, this.orders).subscribe(res => {
+  payment(user: DataUserI, orders: OrderI[]) {
+    this.subscription.add(    
+      this._orderService.saveOrder(user, orders).subscribe(res => {
         this.orders.forEach(elem => {
           this.reduceStock(elem.id);
         })
@@ -110,20 +109,20 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
         panelClass: 'success'
       })
       this._cartService.removeAllCart();
-      this.router.navigate(['/public/movies'])
-      .then(() => {
-        window.location.reload()
-      });      
+      this.router.navigate(['/public/movies']);     
     }, 3000);
   }
 
   //Reducir el stock en la base de datos
   reduceStock(id:string) {
     this.subscription.add(
-      this._apiMoviesService.getMovie(id).subscribe((res:any) => {
-        let actualStock = res[0].stock;
-        let newStock = actualStock - 1;
-        this.upDateStock(newStock, id);
+      this._apiMoviesService.getMovie(id).subscribe(res => {
+        const movie = res[0];
+        if(movie.stock != 0) {
+          let actualStock = movie.stock;
+          let newStock = actualStock - 1;
+          this.upDateStock(newStock, id);
+        }
       })
     );
   }

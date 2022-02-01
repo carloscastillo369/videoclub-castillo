@@ -65,7 +65,7 @@ export class AuthEffects {
             ofType(signInSuccess), 
             tap((action) => {
                 const data = action?.data;
-                const isAdmin = data?.role;
+                const isAdmin = data?.isadmin;
                 if(action.redirect) {
                     this.router.navigate(isAdmin? ['/admin/list'] : ['/public/movies']);
                 }

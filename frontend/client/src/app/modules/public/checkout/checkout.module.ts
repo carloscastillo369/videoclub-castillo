@@ -8,10 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { CheckoutPageComponent } from './pages/checkout-page/checkout-page.component';
 
 //NgRx
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { USER_STATE_NAME } from 'src/app/state/user/user.selector';
-import { UserReducer } from 'src/app/state/user/user.reducer';
 import { UserEffects } from 'src/app/state/user/user.effects';
 
 
@@ -25,7 +22,6 @@ import { UserEffects } from 'src/app/state/user/user.effects';
     MaterialModule,
     SharedModule,
     FlexLayoutModule,
-    StoreModule.forFeature(USER_STATE_NAME, UserReducer),
     EffectsModule.forFeature([UserEffects])
   ]
 })

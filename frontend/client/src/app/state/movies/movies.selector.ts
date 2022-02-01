@@ -8,7 +8,7 @@ export const MOVIES_STATE_NAME = 'movies';
 const getMoviesState = createFeatureSelector<MoviesState>(MOVIES_STATE_NAME);
 
 export const getMovies = createSelector(getMoviesState, (state) => {
-    return state.movies
+    return state.movies;
 });
  
 export const getMovieById = createSelector(

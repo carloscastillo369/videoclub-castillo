@@ -11,6 +11,7 @@ import { CartService } from 'src/app/services/cart.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { getMovieById } from 'src/app/state/movies/movies.selector';
+import { getCart } from 'src/app/state/cart/cart.selector';
 
 
 @Component({
@@ -62,7 +63,7 @@ export class DetailMoviePageComponent implements OnInit, OnDestroy {
   //Condición si una película ya fue agregada
   isMovieInCart(product: any) {
     this.subscription.add(
-      this._cartService.getCartMoviesList().subscribe(res => {
+      this.store.select(getCart).subscribe(res => {
         const filter = res.filter((i) => i.id == product._id);
         if(filter.length == 1) {
           this.addedMovie = true;

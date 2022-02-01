@@ -4,7 +4,7 @@
     </a>    
 
     <ng-container *ngIf="isAuthenticated | async">
-        <ng-container *ngIf="!(dataUser | async)?.role">
+        <ng-container *ngIf="!(dataUser | async)?.isadmin">
             <a mat-list-item class="nav-caption" routerLink="/public/movies" (click)="onSidenavClose()">
                 <mat-icon>theaters</mat-icon> <span>Peliculas</span>
             </a>
@@ -30,7 +30,7 @@
             </mat-menu>            
         </ng-container>
 
-        <ng-container *ngIf="(dataUser | async)?.role">
+        <ng-container *ngIf="(dataUser | async)?.isadmin">
             <a mat-list-item class="nav-caption" routerLink="/admin/list" (click)="onSidenavClose()">
                 <mat-icon>theaters</mat-icon> <span>Películas</span> 
             </a>

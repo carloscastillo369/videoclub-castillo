@@ -10,6 +10,7 @@ import { NewUserI, RegisteredUserI } from 'src/app/core/interfaces/user.interfac
 
 //Interfaz de respuesta al signin y al signout
 import { GetDataUserResponseI, SignInResponseI, SignUpResponseI } from 'src/app/core/interfaces/authResponse.interface';
+import { CartService } from './cart.service';
 
 
 @Injectable({
@@ -25,7 +26,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private helper: JwtHelperService,
-    private router: Router
+    private router: Router,
+    private _cartService: CartService
   ) {
     this.checkToken();
   }
@@ -49,7 +51,8 @@ export class AuthService {
   signOut() {
     this.removeToken();
     this.removeDataUser();
-    localStorage.removeItem('cart');
+    this._cartService.removeAllCart();
+    this.messageTokenExpired$.next('');
     this.router.navigate(['/signin']);
   }
 

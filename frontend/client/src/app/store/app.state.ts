@@ -18,6 +18,10 @@ import { ORDERS_STATE_NAME } from '../state/orders/orders.selector';
 import { OrdersState } from 'src/app/state/orders/orders.state';
 import { OrdersReducer } from 'src/app/state/orders/orders.reducer';
 
+import { CART_STATE_NAME } from '../state/cart/cart.selector';
+import { CartState } from 'src/app/state/cart/cart.state';
+import { CartReducer } from 'src/app/state/cart/cart.reducer';
+
 import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 
 
@@ -27,6 +31,7 @@ export interface AppState {
     [MOVIES_STATE_NAME]: MoviesState;
     [USER_STATE_NAME]: UserState;
     [ORDERS_STATE_NAME]: OrdersState;
+    [CART_STATE_NAME]: CartState;
     router: RouterReducerState;
 }
 
@@ -36,5 +41,6 @@ export const appReducer = {
     [MOVIES_STATE_NAME]: MoviesReducer,
     [USER_STATE_NAME]: UserReducer,
     [ORDERS_STATE_NAME]: OrdersReducer,
+    [CART_STATE_NAME]: CartReducer,
     router: routerReducer
 }

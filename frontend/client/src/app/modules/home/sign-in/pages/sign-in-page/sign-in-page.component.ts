@@ -62,8 +62,8 @@ export class SignInPageComponent implements OnInit {
 
   //Mensaje de error desde el servidor
   ServerErrorMessage() {
-    this.errorMessage = this.store.select(getErrorMessage);
     this.store.dispatch(setErrorMessage({ message: '' }));
+    this.errorMessage = this.store.select(getErrorMessage);
   }
   
   //Mensaje si el token ha expirado

@@ -12,6 +12,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { getMovies } from 'src/app/state/movies/movies.selector';
 import { deleteMovie, loadMovies } from 'src/app/state/movies/movies.actions';
+import { ApiMoviesService } from 'src/app/services/api-movies.service';
 
 
 @Component({
@@ -25,14 +26,14 @@ export class MoviesPageComponent implements OnInit, OnDestroy {
   public movies!: MovieI[];
 
   //Mat-Table
-  displayedColumns: string[] = ['id','titulo', 'accion'];
-  dataSource!: MatTableDataSource<any>;
+  public displayedColumns: string[] = ['id','titulo', 'accion'];
+  public dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   //Variable para suscribirse y desuscribirse a un observable
   private subscription: Subscription = new Subscription();
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>, private _apimovie: ApiMoviesService) { }
 
   ngOnInit(): void {
     this.getMovies();

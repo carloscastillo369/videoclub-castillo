@@ -7,6 +7,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 
 import { CartPageComponent } from './pages/cart-page/cart-page.component';
 
+//NgRx
+import { EffectsModule } from '@ngrx/effects';
+import { CartEffects } from 'src/app/state/cart/cart.effects';
+
 
 @NgModule({
   declarations: [
@@ -17,7 +21,8 @@ import { CartPageComponent } from './pages/cart-page/cart-page.component';
     CartRoutingModule,
     MaterialModule,
     SharedModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    EffectsModule.forFeature([CartEffects])
   ]
 })
 export class CartModule { }

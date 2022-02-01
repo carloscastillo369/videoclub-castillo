@@ -22,7 +22,7 @@
       <ng-container matColumnDef="accion">
           <th mat-header-cell *matHeaderCellDef> Accion </th>
           <td class="cell-center" mat-cell *matCellDef="let product"> 
-              <button mat-mini-fab color="warn" (click)="deleteCartItem(product)">
+              <button mat-mini-fab color="warn" (click)="deleteCartItem(product.id)">
                   <mat-icon>delete</mat-icon>
               </button>
           </td>

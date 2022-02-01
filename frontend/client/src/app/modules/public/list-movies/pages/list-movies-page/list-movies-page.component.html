@@ -1,5 +1,5 @@
 <div class="list-movies" fxLayout="row wrap">
-    <div *ngFor="let movie of movies | async" fxFlex="50" fxFlex.gt-xs="33.33" fxFlex.gt-sm="25" fxFlex.gt-md="16.66" class="item-movie">
+    <div *ngFor="let movie of movies" fxFlex="50" fxFlex.gt-xs="33.33" fxFlex.gt-sm="25" fxFlex.gt-md="16.66" class="item-movie">
         <app-card-movie [movie]="movie"></app-card-movie>        
     </div>
 </div>

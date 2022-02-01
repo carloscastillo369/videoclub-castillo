@@ -8,7 +8,7 @@ export const ORDERS_STATE_NAME = 'orders';
 const getOrdersState = createFeatureSelector<OrdersState>(ORDERS_STATE_NAME);
 
 export const getOrders = createSelector(getOrdersState, (state) => {
-    return state.orders
+    return state.orders;
 });
 
 export const getOrderById = createSelector(
@@ -18,3 +18,7 @@ export const getOrderById = createSelector(
         return orders? orders.find((order) => order._id === route.params['id']) : null;
     }
 );
+
+export const getMyOrders = createSelector(getOrdersState, (state) => {
+    return state.myorders;
+});

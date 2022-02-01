@@ -1,27 +1,24 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { filter, map, mergeMap, switchMap, withLatestFrom } from "rxjs/operators";
-import { of } from "rxjs";
+import { filter, map, mergeMap, switchMap } from "rxjs/operators";
 import Swal from 'sweetalert2';
 
 //Servicio api_películas
 import { ApiMoviesService } from "src/app/services/api-movies.service";
 
+//Servicio de autenticación
+import { AuthService } from "src/app/services/auth.service";
+
 //NgRx
-import { Store } from "@ngrx/store";
-import { AppState } from "src/app/store/app.state";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { addMovie, loadMovies, loadMoviesSuccess, addMovieSuccess, updateMovie, updateMovieSuccess, deleteMovie, deleteMovieSuccess } from './movies.actions';
-import { getMovies } from './movies.selector';
-import { dummyAction } from '../auth/auth.actions';
 import { RouterNavigatedAction, ROUTER_NAVIGATION } from "@ngrx/router-store";
-import { AuthService } from "src/app/services/auth.service";
+
 
 
 @Injectable()
 export class MoviesEffects {
     constructor(
-        private store: Store<AppState>,
         private actions$: Actions,
         private _apiMovieService: ApiMoviesService,
         private _authService: AuthService,
@@ -32,16 +29,12 @@ export class MoviesEffects {
     loadMovies$ = createEffect(() => {
         return this.actions$.pipe(
             ofType(loadMovies),
-            withLatestFrom(this.store.select(getMovies)), //evitar llamadas al api http si la data ya está en el store
-            mergeMap(([action, movies]) => {
-                if(!movies.length || movies.length === 1) {
-                    return this._apiMovieService.getMovie().pipe(
-                        map((movies) => {
-                            return loadMoviesSuccess({ movies });
-                        })
-                    );
-                }
-                return of(dummyAction());
+            mergeMap((action) => {
+                return this._apiMovieService.getMovie().pipe(
+                    map((movies) => {
+                        return loadMoviesSuccess({ movies });
+                    })
+                );
             })
         );
     });
@@ -135,16 +128,12 @@ export class MoviesEffects {
             map((r: any) => {
                 return r.payload.routerState['params']['id'];
             }),
-            withLatestFrom(this.store.select(getMovies)), //evitar llamadas al api http si la data ya está en el store
-            switchMap(([id, movies]) => {
-                if(!movies.length) {
-                    return this._apiMovieService.getMovie(id).pipe(
-                        map((movies) => {
-                            return loadMoviesSuccess({ movies });
-                        })
-                    );
-                }
-                return of(dummyAction());
+            switchMap((id) => {
+                return this._apiMovieService.getMovie(id).pipe(
+                    map((movies) => {
+                        return loadMoviesSuccess({ movies });
+                    })
+                );
             })
         );
     });

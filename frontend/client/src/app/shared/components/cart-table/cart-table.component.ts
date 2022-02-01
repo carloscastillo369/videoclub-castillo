@@ -8,6 +8,10 @@ import { CartI } from 'src/app/core/interfaces/cart.interface';
 
 //Servico de carrito
 import { CartService } from 'src/app/services/cart.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.state';
+import { getCart } from 'src/app/state/cart/cart.selector';
+import { deleteCart, deleteItemCart, loadCart } from 'src/app/state/cart/cart.actions';
 
 
 @Component({
@@ -27,7 +31,7 @@ export class CartTableComponent implements OnInit, OnDestroy {
   //Variable para suscribirse y desuscribirse a un observable
   private subscription: Subscription = new Subscription();
   
-  constructor(private _cartService: CartService) { }
+  constructor(private _cartService: CartService, private store: Store<AppState>) { }
 
   ngOnInit(): void {
     this.getCartList();
@@ -41,14 +45,14 @@ export class CartTableComponent implements OnInit, OnDestroy {
   //Obtener lista del carrito
   getCartList() {
     this.subscription.add(
-      this._cartService.getCartMoviesList().subscribe((res: CartI[]) => {
+      this.store.select(getCart).subscribe((res: CartI[]) => {
         this.cartMovies = res;
       })
     );
   }
 
   //Elminar un item del carrito
-  deleteCartItem(product: CartI){
+  deleteCartItem(id: string){
     Swal.fire({
       title: '¿Estás seguro?',
       icon: 'warning',
@@ -60,8 +64,8 @@ export class CartTableComponent implements OnInit, OnDestroy {
       allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {
-        this._cartService.deleteCartItem(product);
-        this.table.renderRows();
+        //Si se confirma, se elimina la película del carrito
+        this.store.dispatch(deleteItemCart({ id }));
         Swal.fire(
           this.cartMovies.length == 0? 'Carrito vacío!' : 'Eliminado!',
           this.cartMovies.length == 0? 'Vuelve a Películas para agregar una película a tu carrito' : 'La película ha sido eliminada del carrito.',
@@ -84,7 +88,8 @@ export class CartTableComponent implements OnInit, OnDestroy {
       allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {
-        this._cartService.removeAllCart();
+        //Si se confirma, se elimina todo el carrito
+        this.store.dispatch(deleteCart());
         Swal.fire(
           'Carrito vacío!',
           'Vuelve a Películas para agregar una película a tu carrito',

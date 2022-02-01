@@ -53,8 +53,9 @@ exports.signInUser = async (req, res) => {
             if(token) {
                 res.status(200).json({
                     token: token,
-                    role: user.isadmin,
-                    name: user.name
+                    isadmin: user.isadmin,
+                    name: user.name,
+                    email: user.email
                 })
             }
             console.log(`Has iniciado sesión ${user.name}`);
@@ -73,6 +74,7 @@ exports.getDataUser = async (req, res) => {
         const token = jwt.sign({ id: user.id, isadmin: user.isadmin }, SECRET_KEY, { expiresIn: expiresIn });
         if(token) {
             const dataUser = {
+                _id: user._id,
                 name: user.name,
                 email: user.email,
                 address: user.address,

@@ -9,10 +9,7 @@ import { MaterialModule } from 'src/app/shared/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
 //NgRx
-import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import { MOVIES_STATE_NAME } from 'src/app/state/movies/movies.selector';
-import { MoviesReducer } from 'src/app/state/movies/movies.reducer';
 import { MoviesEffects } from 'src/app/state/movies/movies.effects';
 
 
@@ -27,7 +24,6 @@ import { MoviesEffects } from 'src/app/state/movies/movies.effects';
     MoviesRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    StoreModule.forFeature(MOVIES_STATE_NAME, MoviesReducer),
     EffectsModule.forFeature([MoviesEffects])
   ]
 })

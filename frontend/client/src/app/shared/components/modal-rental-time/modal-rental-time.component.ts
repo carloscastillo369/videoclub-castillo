@@ -1,16 +1,26 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
+
+//Componente SnackBar
+import { SnackBarComponent } from 'src/app/shared/components/snack-bar/snack-bar.component';
 
 //Interfaz de película
 import { MovieI } from 'src/app/core/interfaces/movie.interface';
+
+//Interfaz de item del carrito
+import { CartI } from 'src/app/core/interfaces/cart.interface';
 
 //Servicio de api-películas
 import { ApiMoviesService } from 'src/app/services/api-movies.service';
 
 //Servicio de carrito
 import { CartService } from 'src/app/services/cart.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.state';
+import { addCart, addCartSuccess } from 'src/app/state/cart/cart.actions';
 
 
 @Component({
@@ -26,9 +36,17 @@ export class ModalRentalTimeComponent implements OnInit {
   //Variable días de alquiler
   public days: number = 1;
 
+  //Variable para el SnackBar
+  private duration: number = 3;
+  private verticalPosition: MatSnackBarVerticalPosition = 'top';
+  private horizontalPosition: MatSnackBarHorizontalPosition = 'center';
+
   constructor(
+    private store: Store<AppState>,
     private _apiMoviesService: ApiMoviesService,
     private _cartService : CartService,
+    private router: Router,
+    private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: MovieI 
   ) { 
     this.movie = this.data;
@@ -37,21 +55,47 @@ export class ModalRentalTimeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  //Agregar película al carrito
+  //Agregar película al carrito si está disponible
   rentMovie(id: string, days: number){
     this._apiMoviesService.getMovie(id).subscribe(res => {
       const movie = res[0];
+      //Si está disponible se agregará al carrito
       if(movie.stock > 0){
-        this._cartService.addMovieToCart(movie, days);
+        const itemCart: CartI = {
+          id: movie._id,
+          title: movie.title,
+          image: movie.posterimg,
+          year: movie.year,
+          runtime: movie.runtime,
+          price: movie.price,
+          days: days,
+          stock: movie.stock
+        }
+        //Agregar al carrito
+        this.addItemToCart(itemCart);
+      } else {
+          this.snackBar.openFromComponent( SnackBarComponent, {
+            data: 'Esta película ya no está disponible',
+            duration: this.duration*1000,
+            verticalPosition: this.verticalPosition,
+            horizontalPosition: this.horizontalPosition,
+            panelClass: 'error'
+          })
+          this.router.navigate(['/public/movies']);
       }
     });
+  }
+
+  //Agregar al carrito
+  addItemToCart(item: CartI) {
+    this.store.dispatch(addCart({ item }));
     Swal.fire({
       position: 'top',
       icon: 'success',
       title: 'Película agregada!',
       showConfirmButton: false,
       timer: 2500
-    });
+    });    
   }
 
   //Aumentar la cantidad de días de alquiler por botón (+)

@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-//Interfaz del carrito
+//Interfaz de item del carrito
 import { CartI } from 'src/app/core/interfaces/cart.interface';
-
-//Interfaz de película
-import { MovieI } from 'src/app/core/interfaces/movie.interface';
 
 
 @Injectable({
@@ -13,7 +10,7 @@ import { MovieI } from 'src/app/core/interfaces/movie.interface';
 })
 export class CartService {
 
-  private cartArrayMovies: CartI[] = !!localStorage.cart? JSON.parse(localStorage.cart) : [];
+  private cartArrayMovies: CartI[] = this.getCartFromLocalStorage();
   private cartMoviesList = new BehaviorSubject<CartI[]>(this.cartArrayMovies);
 
   constructor() { }
@@ -24,21 +21,10 @@ export class CartService {
   }
 
   //Agregar película al carrito
-  addMovieToCart(product: MovieI, days: number) {
-    const cartItem: CartI = {
-      id: product._id, 
-      title: product.title,
-      image: product.posterimg,
-      year: product.year,
-      runtime: product.runtime,
-      price: product.price,
-      days: days,
-      stock: product.stock
-    }
-
-    this.cartArrayMovies.push(cartItem);
+  addMovieToCart(product: CartI) {
+    this.cartArrayMovies = [ ...this.cartArrayMovies, product]
     this.cartMoviesList.next(this.cartArrayMovies);
-    this.saveCartInLocalStorage();
+    this.setCartInLocalStorage();
   }
 
   //Obtener precio total del carrito
@@ -51,14 +37,11 @@ export class CartService {
   }
 
   //Eliminar un item del carrito
-  deleteCartItem(product: CartI) {
-    this.cartArrayMovies.map((i:any, index:any)=>{
-      if(product.id == i.id){
-        this.cartArrayMovies.splice(index,1);
-      }
-    })
+  deleteCartItem(id: string) {
+    let updatedCart = this.cartArrayMovies.filter((i) => i.id != id);
+    this.cartArrayMovies = updatedCart;
     this.cartMoviesList.next(this.cartArrayMovies);
-    this.saveCartInLocalStorage();
+    this.setCartInLocalStorage();
   }
 
   //Remover todo el carrito
@@ -73,7 +56,7 @@ export class CartService {
     const result = this.cartArrayMovies.filter(i => i.id == id);
     result[0].days += 1;
     this.cartMoviesList.next(this.cartArrayMovies);
-    this.saveCartInLocalStorage();
+    this.setCartInLocalStorage();
   }
 
   //Disminuir los días de alquiler por botón (-)
@@ -81,7 +64,7 @@ export class CartService {
     const result = this.cartArrayMovies.filter(i => i.id == id);
     result[0].days -= 1;
     this.cartMoviesList.next(this.cartArrayMovies);
-    this.saveCartInLocalStorage();
+    this.setCartInLocalStorage();
   }
 
   //Cambiar los días de alquiler por ingreso de dígitos
@@ -97,11 +80,20 @@ export class CartService {
     }
     
     this.cartMoviesList.next(this.cartArrayMovies);
-    this.saveCartInLocalStorage();
+    this.setCartInLocalStorage();
   }
 
   //Guardar carrito en el local storage
-  saveCartInLocalStorage() {
+  setCartInLocalStorage() {
     return localStorage.setItem('cart', JSON.stringify(this.cartArrayMovies));
   }
+
+  getCartFromLocalStorage() {
+    const dataCart = localStorage.getItem('cart');
+    if(dataCart) {
+      return JSON.parse(dataCart);
+    }
+    return [];
+  }
+
 }

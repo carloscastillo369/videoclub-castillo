@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { addOrderSuccess, loadOrdersSuccess } from "./orders.actions";
+import { addOrderSuccess, loadMyOrdersSuccess, loadOrdersSuccess } from "./orders.actions";
 import { initialState } from "./orders.state";
 
 const _ordersReducer = createReducer(
@@ -16,6 +16,12 @@ const _ordersReducer = createReducer(
         return {
             ...state,
             orders: [...state.orders, order]
+        }
+    }),
+    on(loadMyOrdersSuccess, (state, action) => {
+        return {
+            ...state,
+            myorders: action.myorders
         }
     })
 );

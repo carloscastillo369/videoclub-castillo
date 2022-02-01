@@ -1,23 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-//Interfaz de pedido de la base de datos
-import { UserOrderI } from 'src/app/core/interfaces/user-order.interface';
-
 //Interfaz de pedidos de usuario
 import { MyOrderI } from 'src/app/core/interfaces/myorder.interface';
-
-//Interfaz de pedido
-import { OrderI } from 'src/app/core/interfaces/order.interface';
-
-//Servicio de pedidos
-import { OrderService } from 'src/app/services/order.service';
 
 //NgRx
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
-import { getUser } from 'src/app/state/user/user.selector';
-import { loadUser } from 'src/app/state/user/user.actions';
+import { getMyOrders } from 'src/app/state/orders/orders.selector';
+import { loadMyOrders } from 'src/app/state/orders/orders.actions';
 
 
 @Component({
@@ -27,66 +18,31 @@ import { loadUser } from 'src/app/state/user/user.actions';
 })
 export class MyordersPageComponent implements OnInit, OnDestroy {
 
-  //Variable de pedidos de usuario
-  public orders!: MyOrderI[];
+  //Variable de pedidos de un usuario
+  public myOrders!: MyOrderI[];
 
   //Variable para suscribirse y desuscribirse a un observable
   private subscription: Subscription = new Subscription();
 
-  constructor(
-    private store: Store<AppState>,
-    private _orderService: OrderService
-  ) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.getUserOrders();
-    this.store.dispatch(loadUser());
+    this.getMyOrders();
   }
 
   //Desuscripción a un observable
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  
-  //Obtener email desde el store
-  getUserOrders() {
+
+  //Obtener pedidos de usuario
+  getMyOrders(){
     this.subscription.add(
-      this.store.select(getUser).subscribe(res => {
-        if(res) {
-          const userEmail = res.email;
-          this.getOrders(userEmail);   
-        } 
+      this.store.select(getMyOrders).subscribe(res => {
+        this.myOrders = res;
       })
     );
-  }
-
-  //Obtener pedidos de usuario por su email
-  getOrders(email: string | undefined){
-    this.subscription.add(
-      this._orderService.getOrder().subscribe(res => { 
-        let orders: MyOrderI[] = [];
-        res.forEach((elem: UserOrderI) => {
-          if(email == elem.user.email) {
-            let order = {
-              total: this.CalcTotal(elem.order),
-              order: elem.order
-            }
-            orders.push(order);
-          }
-        })
-        this.orders = orders; 
-      })
-    );
-  }
-
-  //Calcular precio total del pedido
-  CalcTotal(orders: OrderI[]) {
-    let total: number = 0;
-    orders.forEach((elem:any) => {
-      let subtotal = elem.days*elem.price;
-      total += subtotal;
-    })
-    return total;
+    this.store.dispatch(loadMyOrders());
   }
 
 }

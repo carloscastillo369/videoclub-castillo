@@ -2,8 +2,9 @@ import { DataUserI } from "./user.interface";
 
 export interface SignInResponseI {
     token: string,
-    role: boolean,
-    name: string
+    isadmin: boolean,
+    name: string,
+    email: string
 }
 
 export interface SignUpResponseI {
