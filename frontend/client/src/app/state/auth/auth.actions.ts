@@ -36,4 +36,4 @@ export const signUpSuccess = createAction(
 
 export const autoSignIn = createAction(AUTO_SIGNIN_ACTION);
 
-export const SignOut = createAction(SIGNOUT_ACTION);
+export const signOut = createAction(SIGNOUT_ACTION);

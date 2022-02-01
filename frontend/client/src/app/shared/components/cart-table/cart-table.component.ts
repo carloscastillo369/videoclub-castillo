@@ -6,12 +6,11 @@ import Swal from 'sweetalert2';
 //Interfaz de un item del carrito
 import { CartI } from 'src/app/core/interfaces/cart.interface';
 
-//Servico de carrito
-import { CartService } from 'src/app/services/cart.service';
+//NgRx
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { getCart } from 'src/app/state/cart/cart.selector';
-import { deleteCart, deleteItemCart, loadCart } from 'src/app/state/cart/cart.actions';
+import { changeDaysItemCart, decreaseDaysItemCart, deleteCart, deleteItemCart, increaseDaysItemCart } from 'src/app/state/cart/cart.actions';
 
 
 @Component({
@@ -31,7 +30,7 @@ export class CartTableComponent implements OnInit, OnDestroy {
   //Variable para suscribirse y desuscribirse a un observable
   private subscription: Subscription = new Subscription();
   
-  constructor(private _cartService: CartService, private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
     this.getCartList();
@@ -101,17 +100,17 @@ export class CartTableComponent implements OnInit, OnDestroy {
 
   //Aumentar la cantidad de días de alquiler por botón (+)
   increase( id: string ){
-    this._cartService.increaseQtyMovie(id);
+    this.store.dispatch(increaseDaysItemCart({ id }));
   }
 
   //Disminuir la cantidad de días de alquiler por botón (-)
   decrease( id: string ){
-    this._cartService.decreaseQtyMovie(id);
+    this.store.dispatch(decreaseDaysItemCart({ id }));
   }
 
   //Cambiar la cantidad de días de alquiler por ingreso de dígitos
   changeQty(change: any, id: string) {
-    this._cartService.changeQtyMovie(id, Number(change));
+    this.store.dispatch(changeDaysItemCart({id: id, days: Number(change)}));
   }
 
   //Pasar minutos a horas

@@ -93,8 +93,7 @@ export class UpdateMovieComponent implements OnInit, OnDestroy {
     }).then((result) => {
       if (result.isConfirmed) {
         //Si se confirma, se actualiza la película
-        this.store.dispatch(updateMovie({ movie, id }))
-
+        this.store.dispatch(updateMovie({ movie, id }));
       } else if (result.isDenied) {
         //Si se deniega, los cambios vuelven a su estado inicial
         this.formUpdateMovie = this.fb.group({

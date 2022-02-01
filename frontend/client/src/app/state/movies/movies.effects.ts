@@ -11,9 +11,8 @@ import { AuthService } from "src/app/services/auth.service";
 
 //NgRx
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { addMovie, loadMovies, loadMoviesSuccess, addMovieSuccess, updateMovie, updateMovieSuccess, deleteMovie, deleteMovieSuccess } from './movies.actions';
 import { RouterNavigatedAction, ROUTER_NAVIGATION } from "@ngrx/router-store";
-
+import * as fromMoviesActions from './movies.actions';
 
 
 @Injectable()
@@ -28,11 +27,11 @@ export class MoviesEffects {
     //effect Obtener películas
     loadMovies$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(loadMovies),
+            ofType(fromMoviesActions.loadMovies),
             mergeMap((action) => {
                 return this._apiMovieService.getMovie().pipe(
                     map((movies) => {
-                        return loadMoviesSuccess({ movies });
+                        return fromMoviesActions.loadMoviesSuccess({ movies });
                     })
                 );
             })
@@ -42,11 +41,11 @@ export class MoviesEffects {
     //effect Crear película
     addMovie$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(addMovie), 
+            ofType(fromMoviesActions.addMovie), 
             mergeMap((action) => {
                 return this._apiMovieService.saveMovie(action.movie).pipe(
                     map((movie) => {
-                        return addMovieSuccess({ movie });
+                        return fromMoviesActions.addMovieSuccess({ movie });
                     })
                 );
             })
@@ -56,7 +55,7 @@ export class MoviesEffects {
     //effect navegar después de Crear película
     addMovieRedirect$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(addMovieSuccess), 
+            ofType(fromMoviesActions.addMovieSuccess), 
             map((action) => {
                 Swal.fire({
                     position: 'top-end',
@@ -74,11 +73,11 @@ export class MoviesEffects {
     //effect Actualizar película
     updateMovie$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(updateMovie), 
+            ofType(fromMoviesActions.updateMovie), 
             mergeMap((action) => {
                 return this._apiMovieService.updateMovie(action.movie, action.id).pipe(
                     map((movie) => {
-                        return updateMovieSuccess({ movie });
+                        return fromMoviesActions.updateMovieSuccess({ movie });
                     })
                 );
             })
@@ -88,7 +87,7 @@ export class MoviesEffects {
     //effect navegar después de Actualizar película
     updateMovieRedirect$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(updateMovieSuccess), 
+            ofType(fromMoviesActions.updateMovieSuccess), 
             map((action) => {
                 Swal.fire({
                     position: 'top-end',
@@ -106,17 +105,18 @@ export class MoviesEffects {
     //effect Eliminar película
     deleteMovie$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(deleteMovie), 
+            ofType(fromMoviesActions.deleteMovie), 
             mergeMap((action) => {
                 return this._apiMovieService.deleteMovie(action.id).pipe(
                     map((data) => {
-                        return deleteMovieSuccess({ id: action.id });
+                        return fromMoviesActions.deleteMovieSuccess({ id: action.id });
                     })
                 );
             })
         );
     });
 
+    //Obtener una película por id
     getSingleMovie$ = createEffect(() => {
         return this.actions$.pipe(
             ofType(ROUTER_NAVIGATION),
@@ -131,7 +131,7 @@ export class MoviesEffects {
             switchMap((id) => {
                 return this._apiMovieService.getMovie(id).pipe(
                     map((movies) => {
-                        return loadMoviesSuccess({ movies });
+                        return fromMoviesActions.loadMoviesSuccess({ movies });
                     })
                 );
             })

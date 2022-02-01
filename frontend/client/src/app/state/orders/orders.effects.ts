@@ -11,7 +11,7 @@ import { AuthService } from "src/app/services/auth.service";
 
 //NgRx
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { addOrder, addOrderSuccess, loadMyOrders, loadMyOrdersSuccess, loadOrders, loadOrdersSuccess } from "./orders.actions";
+import * as fromOrdersActions from "./orders.actions";
 import { RouterNavigatedAction, ROUTER_NAVIGATION } from "@ngrx/router-store";
 
 
@@ -27,25 +27,25 @@ export class OrdersEffects {
     //effect Obtener Pedidos
     loadOrders$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(loadOrders),
+            ofType(fromOrdersActions.loadOrders),
             mergeMap((action) => {
                 return this._ordeService.getOrder().pipe(
                     map((orders) => {
-                        return loadOrdersSuccess({ orders });
+                        return fromOrdersActions.loadOrdersSuccess({ orders });
                     })
                 );
             })
         );
     });
 
-    //effect Crear película
+    //effect realizar pedido
     addOrder$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(addOrder), 
+            ofType(fromOrdersActions.addOrder), 
             mergeMap((action) => {
                 return this._ordeService.saveOrder(action.user, action.order).pipe(
                     map((order) => {
-                        return addOrderSuccess({ order });
+                        return fromOrdersActions.addOrderSuccess({ order });
                     })
                 );
             })
@@ -71,7 +71,7 @@ export class OrdersEffects {
     }, 
     { dispatch: false});*/
 
-
+    //Obtener un pedido por id
     getSingleOrder$ = createEffect(() => {
         return this.actions$.pipe(
             ofType(ROUTER_NAVIGATION),
@@ -84,23 +84,24 @@ export class OrdersEffects {
             switchMap((id) => {
                 return this._ordeService.getOrder(id).pipe(
                     map((orders) => {
-                        return loadOrdersSuccess({ orders });
+                        return fromOrdersActions.loadOrdersSuccess({ orders });
                     })
                 );
             })
         );
     });
 
+    //Obtener los pedidos de un usuario por su email
     loadMyOrders$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(loadMyOrders),
+            ofType(fromOrdersActions.loadMyOrders),
             mergeMap((action) => {
                 const dataUser = this._authService.getDataUserFromLocalStorage();
                 const email = dataUser.email;
                 return this._ordeService.getMyOrders(email).pipe(
                     map((orders) => {
                         const myorders = orders;
-                        return loadMyOrdersSuccess({ myorders });
+                        return fromOrdersActions.loadMyOrdersSuccess({ myorders });
                     })
                 );
             })

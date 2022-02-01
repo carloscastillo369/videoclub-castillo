@@ -22,7 +22,7 @@ export class CartService {
 
   //Agregar película al carrito
   addMovieToCart(product: CartI) {
-    this.cartArrayMovies = [ ...this.cartArrayMovies, product]
+    this.cartArrayMovies = [ ...this.cartArrayMovies, product];
     this.cartMoviesList.next(this.cartArrayMovies);
     this.setCartInLocalStorage();
   }
@@ -38,7 +38,7 @@ export class CartService {
 
   //Eliminar un item del carrito
   deleteCartItem(id: string) {
-    let updatedCart = this.cartArrayMovies.filter((i) => i.id != id);
+    const updatedCart = this.cartArrayMovies.filter((i) => i.id != id);
     this.cartArrayMovies = updatedCart;
     this.cartMoviesList.next(this.cartArrayMovies);
     this.setCartInLocalStorage();
@@ -53,32 +53,70 @@ export class CartService {
 
   //Aumentar los días de alquiler por botón (+)
   increaseQtyMovie(id:string) {
-    const result = this.cartArrayMovies.filter(i => i.id == id);
-    result[0].days += 1;
+    const updatedCart = this.cartArrayMovies.map((movie) => {
+      const newday = movie.days + 1;
+      const updatedItemCart: CartI = {
+        id: movie.id,
+        title: movie.title,
+        image: movie.image,
+        year: movie.year,
+        runtime: movie.runtime,
+        price: movie.price,
+        days: newday,
+        stock: movie.stock
+      }
+      return movie.id == id? updatedItemCart : movie;
+    });
+    this.cartArrayMovies = updatedCart;
     this.cartMoviesList.next(this.cartArrayMovies);
     this.setCartInLocalStorage();
   }
 
   //Disminuir los días de alquiler por botón (-)
   decreaseQtyMovie(id:string) {
-    const result = this.cartArrayMovies.filter(i => i.id == id);
-    result[0].days -= 1;
+    const updatedCart = this.cartArrayMovies.map((movie) => {
+      const newday = movie.days - 1;
+      const updatedItemCart: CartI = {
+        id: movie.id,
+        title: movie.title,
+        image: movie.image,
+        year: movie.year,
+        runtime: movie.runtime,
+        price: movie.price,
+        days: newday,
+        stock: movie.stock
+      }
+      return movie.id == id? updatedItemCart : movie;
+    });
+    this.cartArrayMovies = updatedCart;
     this.cartMoviesList.next(this.cartArrayMovies);
     this.setCartInLocalStorage();
   }
 
   //Cambiar los días de alquiler por ingreso de dígitos
   changeQtyMovie(id: string, days: number) {
-    const result = this.cartArrayMovies.filter(i => i.id == id);
-
-    if(days < 1) {
-      result[0].days = 1;
-    } else if(days >= 1 && days <= 30) {
-      result[0].days = days;
-    } else {
-      result[0].days = 30;
-    }
-    
+    const updatedCart = this.cartArrayMovies.map((movie) => {
+      let newday = 0;
+      if(days < 1) {
+        newday = 1;
+      } else if(days >= 1 && days <= 30) {
+        newday = days;
+      } else {
+        newday = 30;
+      }
+      const updatedItemCart: CartI = {
+        id: movie.id,
+        title: movie.title,
+        image: movie.image,
+        year: movie.year,
+        runtime: movie.runtime,
+        price: movie.price,
+        days: newday,
+        stock: movie.stock
+      }
+      return movie.id == id? updatedItemCart : movie;
+    });
+    this.cartArrayMovies = updatedCart;
     this.cartMoviesList.next(this.cartArrayMovies);
     this.setCartInLocalStorage();
   }

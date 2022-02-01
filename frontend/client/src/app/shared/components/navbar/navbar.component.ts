@@ -12,7 +12,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { isAuthenticated, getDataUser } from 'src/app/state/auth/auth.selector';
-import { SignOut } from 'src/app/state/auth/auth.actions';
+import { signOut } from 'src/app/state/auth/auth.actions';
 
 
 @Component({
@@ -55,7 +55,7 @@ export class NavbarComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         //Si se confirma, se cierra sesión
-        this.store.dispatch(SignOut());
+        this.store.dispatch(signOut());
       }
     })
   }

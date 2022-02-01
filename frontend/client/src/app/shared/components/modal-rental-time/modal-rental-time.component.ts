@@ -16,11 +16,10 @@ import { CartI } from 'src/app/core/interfaces/cart.interface';
 //Servicio de api-películas
 import { ApiMoviesService } from 'src/app/services/api-movies.service';
 
-//Servicio de carrito
-import { CartService } from 'src/app/services/cart.service';
+//NgRx
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
-import { addCart, addCartSuccess } from 'src/app/state/cart/cart.actions';
+import { addCart } from 'src/app/state/cart/cart.actions';
 
 
 @Component({
@@ -44,7 +43,6 @@ export class ModalRentalTimeComponent implements OnInit {
   constructor(
     private store: Store<AppState>,
     private _apiMoviesService: ApiMoviesService,
-    private _cartService : CartService,
     private router: Router,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: MovieI 

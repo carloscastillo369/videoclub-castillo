@@ -1,11 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 
-//Servicio de carrito
-import { CartService } from 'src/app/services/cart.service';
-import { getTotalPriceCart } from 'src/app/state/cart/cart.selector';
+//NgRx
+import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
+import { getTotalPriceCart } from 'src/app/state/cart/cart.selector';
 
 
 @Component({
@@ -21,7 +20,7 @@ export class CartSummaryComponent implements OnInit, OnDestroy {
   //Variable para suscribirse y desuscribirse a un observable
   private subscription: Subscription = new Subscription();
 
-  constructor(private _cartService: CartService, private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
     this.getTotalPriceCart();

@@ -12,8 +12,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { autoSignIn, SignOut, signInStart, signInSuccess, signUpStart, signUpSuccess } from 'src/app/state/auth/auth.actions';
-import { setLoadingSpinner, setErrorMessage } from 'src/app/store/shared/shared.actions';
+import * as fromAuthActions from 'src/app/state/auth/auth.actions';
+import * as fromSharedActions from 'src/app/store/shared/shared.actions';
 
 
 @Injectable()
@@ -34,11 +34,11 @@ export class AuthEffects {
     //effect de Inicio de Sesión
     singIn$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(signInStart), 
+            ofType(fromAuthActions.signInStart), 
             exhaustMap((action) => {
                 return this._authService.signIn(action.user).pipe(
                     map(data => {
-                        this.store.dispatch(setLoadingSpinner({ status: false }));
+                        this.store.dispatch(fromSharedActions.setLoadingSpinner({ status: false }));
                         this._authService.setDataUserInLocalStorage(data);
                         this.snackBar.openFromComponent( SnackBarComponent, {
                             data: `Bienvenido: ${data.name}!`,
@@ -47,12 +47,12 @@ export class AuthEffects {
                             horizontalPosition: this.horizontalPosition,
                             panelClass: 'success'
                         });
-                        return signInSuccess({ data, redirect: true });
+                        return fromAuthActions.signInSuccess({ data, redirect: true });
                     }),
                     catchError(err => {
-                        this.store.dispatch(setLoadingSpinner({ status: false }));
+                        this.store.dispatch(fromSharedActions.setLoadingSpinner({ status: false }));
                         const error = err.error.msg;
-                        return of(setErrorMessage({ message: error }));
+                        return of(fromSharedActions.setErrorMessage({ message: error }));
                     })
                 );
             })
@@ -62,7 +62,7 @@ export class AuthEffects {
     //effect navegar depués de Iniciar Sesión 
     signInRedirect$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(signInSuccess), 
+            ofType(fromAuthActions.signInSuccess), 
             tap((action) => {
                 const data = action?.data;
                 const isAdmin = data?.isadmin;
@@ -77,10 +77,10 @@ export class AuthEffects {
     //effect mantener Inicio de Sesión
     autoSignIn$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(autoSignIn), 
+            ofType(fromAuthActions.autoSignIn), 
             mergeMap((action) => {
                 const data = this._authService.getDataUserFromLocalStorage();
-                return of(signInSuccess({ data, redirect: false }))
+                return of(fromAuthActions.signInSuccess({ data, redirect: false }))
             })
         );
     })
@@ -88,11 +88,11 @@ export class AuthEffects {
     //effect Registro
     singUp$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(signUpStart), 
+            ofType(fromAuthActions.signUpStart), 
             exhaustMap((action) => {
                 return this._authService.signUp(action.user).pipe(
                     map(data => {
-                        this.store.dispatch(setLoadingSpinner({ status: false }));
+                        this.store.dispatch(fromSharedActions.setLoadingSpinner({ status: false }));
                         this.snackBar.openFromComponent( SnackBarComponent, {
                             data: `${data.msg}`,
                             duration: this.duration*1000,
@@ -100,12 +100,12 @@ export class AuthEffects {
                             horizontalPosition: this.horizontalPosition,
                             panelClass: 'success'
                         });
-                        return signUpSuccess({ data });
+                        return fromAuthActions.signUpSuccess({ data });
                     }),
                     catchError(err => {
-                        this.store.dispatch(setLoadingSpinner({ status: false }));
+                        this.store.dispatch(fromSharedActions.setLoadingSpinner({ status: false }));
                         const error = err.error.msg;
-                        return of(setErrorMessage({ message: error }));
+                        return of(fromSharedActions.setErrorMessage({ message: error }));
                     })
                 );
             })
@@ -115,7 +115,7 @@ export class AuthEffects {
     //effect navegar después de Registrarse
     signUpRedirect$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(signUpSuccess), 
+            ofType(fromAuthActions.signUpSuccess), 
             map((action) => {
                 this.router.navigate(['/signin']);
             })
@@ -126,7 +126,7 @@ export class AuthEffects {
     //effect Cerrar Sesión
     signOut$ = createEffect(() => {
         return this.actions$.pipe(
-            ofType(SignOut), 
+            ofType(fromAuthActions.signOut), 
             map((action) => {
                 this._authService.signOut();
             })
