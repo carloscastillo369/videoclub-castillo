@@ -68,7 +68,7 @@ export class SignInPageComponent implements OnInit {
   
   //Mensaje si el token ha expirado
   ExpiredTokenMessage(){
-    this._authService.messageTokenExpired().subscribe(res => {
+    this._authService.getMessageTokenExpired().subscribe(res => {
       this.store.dispatch(setErrorMessage({message: res}));
     })
   }

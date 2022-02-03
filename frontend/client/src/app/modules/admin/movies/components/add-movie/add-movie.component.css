@@ -8,7 +8,7 @@ input[type=number] { -moz-appearance:textfield; }
 
 
 .addmovie-container {
-    padding: 20px 20px;
+    padding: 20px 5px;
 }
 
 .form-add {
@@ -41,6 +41,7 @@ textarea {
 
 .title {
     color: #fff;
+    font-size: 16px;
     margin-top: 20px;
 }
 
@@ -52,7 +53,7 @@ textarea {
 }
 
 .main-data > mat-form-field {
-    width: 48%;
+    width: 100%;
 }
 
 .boolean-data {
@@ -72,7 +73,7 @@ textarea {
 }
 
 .number-data > mat-form-field {
-    width: 22%;
+    width: 100%;
 }
 
 .textarea-data {
@@ -91,7 +92,7 @@ textarea {
 }
 
 .string-data > mat-form-field {
-    width: 31%;
+    width: 100%;
     margin-bottom: 20px;
 }
 
@@ -108,26 +109,26 @@ textarea {
     background-color: #706c6cc2 !important;
 }
 
-@media(max-width:700px){
-    .addmovie-container {
-        padding: 20px 5px;
-    }
-}
-
-@media(max-width:599px){
+@media(min-width: 600px){
     .title {
-        font-size: 16px;
+        font-size: 24px;
     }
 
     .main-data > mat-form-field {
-        width: 100%;
+        width: 48%;
     }
 
     .number-data > mat-form-field {
-        width: 100%;
+        width: 22%;
     }
 
     .string-data > mat-form-field {
-        width: 100%;
+        width: 31%;
+    }
+}
+
+@media(min-width: 700px){
+    .addmovie-container {
+        padding: 20px 20px;
     }
 }

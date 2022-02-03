@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
 //Interfaz de item del carrito
 import { CartI } from 'src/app/core/interfaces/cart.interface';
@@ -11,19 +10,26 @@ import { CartI } from 'src/app/core/interfaces/cart.interface';
 export class CartService {
 
   private cartArrayMovies: CartI[] = this.getCartFromLocalStorage();
-  private cartMoviesList = new BehaviorSubject<CartI[]>(this.cartArrayMovies);
 
   constructor() { }
 
-  //Obtener items del carrito
-  getCartMoviesList() {
-    return this.cartMoviesList.asObservable();
+  //Guardar carrito en el local storage
+  setCartInLocalStorage() {
+    return localStorage.setItem('cart', JSON.stringify(this.cartArrayMovies));
+  }
+
+  //Obtener items del carrito desde el local storage
+  getCartFromLocalStorage() {
+    const dataCart = localStorage.getItem('cart');
+    if(dataCart) {
+      return JSON.parse(dataCart);
+    }
+    return [];
   }
 
   //Agregar película al carrito
   addMovieToCart(product: CartI) {
     this.cartArrayMovies = [ ...this.cartArrayMovies, product];
-    this.cartMoviesList.next(this.cartArrayMovies);
     this.setCartInLocalStorage();
   }
 
@@ -40,14 +46,12 @@ export class CartService {
   deleteCartItem(id: string) {
     const updatedCart = this.cartArrayMovies.filter((i) => i.id != id);
     this.cartArrayMovies = updatedCart;
-    this.cartMoviesList.next(this.cartArrayMovies);
     this.setCartInLocalStorage();
   }
 
   //Remover todo el carrito
   removeAllCart() {
     this.cartArrayMovies = [];
-    this.cartMoviesList.next(this.cartArrayMovies);
     localStorage.removeItem('cart');
   }
 
@@ -68,7 +72,6 @@ export class CartService {
       return movie.id == id? updatedItemCart : movie;
     });
     this.cartArrayMovies = updatedCart;
-    this.cartMoviesList.next(this.cartArrayMovies);
     this.setCartInLocalStorage();
   }
 
@@ -89,7 +92,6 @@ export class CartService {
       return movie.id == id? updatedItemCart : movie;
     });
     this.cartArrayMovies = updatedCart;
-    this.cartMoviesList.next(this.cartArrayMovies);
     this.setCartInLocalStorage();
   }
 
@@ -117,21 +119,7 @@ export class CartService {
       return movie.id == id? updatedItemCart : movie;
     });
     this.cartArrayMovies = updatedCart;
-    this.cartMoviesList.next(this.cartArrayMovies);
     this.setCartInLocalStorage();
-  }
-
-  //Guardar carrito en el local storage
-  setCartInLocalStorage() {
-    return localStorage.setItem('cart', JSON.stringify(this.cartArrayMovies));
-  }
-
-  getCartFromLocalStorage() {
-    const dataCart = localStorage.getItem('cart');
-    if(dataCart) {
-      return JSON.parse(dataCart);
-    }
-    return [];
   }
 
 }

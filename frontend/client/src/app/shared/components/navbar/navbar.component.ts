@@ -5,9 +5,6 @@ import Swal from 'sweetalert2';
 //Interfaz datos de usuario
 import { SignInResponseI } from 'src/app/core/interfaces/authResponse.interface';
 
-//Servicio de autenticación
-import { AuthService } from 'src/app/services/auth.service';
-
 //NgRx
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
@@ -31,7 +28,7 @@ export class NavbarComponent implements OnInit {
   //Variable si el usuario está autenticado
   public isAuthenticated!: Observable<boolean>;
   
-  constructor(private _authService: AuthService, private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
     this.isAuthenticated = this.store.select(isAuthenticated);

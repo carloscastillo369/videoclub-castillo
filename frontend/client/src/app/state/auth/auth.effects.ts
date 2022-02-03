@@ -41,7 +41,10 @@ export class AuthEffects {
                         this.store.dispatch(fromSharedActions.setLoadingSpinner({ status: false }));
                         this._authService.setDataUserInLocalStorage(data);
                         this.snackBar.openFromComponent( SnackBarComponent, {
-                            data: `Bienvenido: ${data.name}!`,
+                            data: {
+                                title: '',
+                                message: `Bienvenido: ${data.name}!`
+                            },
                             duration: this.duration*1000,
                             verticalPosition: this.verticalPosition,
                             horizontalPosition: this.horizontalPosition,
@@ -94,7 +97,10 @@ export class AuthEffects {
                     map(data => {
                         this.store.dispatch(fromSharedActions.setLoadingSpinner({ status: false }));
                         this.snackBar.openFromComponent( SnackBarComponent, {
-                            data: `${data.msg}`,
+                            data: {
+                                title: '',
+                                message: `${data.msg}`
+                            },
                             duration: this.duration*1000,
                             verticalPosition: this.verticalPosition,
                             horizontalPosition: this.horizontalPosition,

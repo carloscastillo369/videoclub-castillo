@@ -28,8 +28,6 @@
                     Películas
                 </button>
 
-                <app-cart-widget></app-cart-widget>
-
                 <button mat-mini-fab color="accent" [matMenuTriggerFor]="menu" class="btn-user"> 
                     <mat-icon>emoji_emotions</mat-icon>
                 </button>
@@ -49,7 +47,7 @@
                 </mat-menu>
             </div>
 
-            <app-cart-widget fxHide.gt-xs></app-cart-widget>
+            <app-cart-widget></app-cart-widget>
         </ng-container>
 
         <ng-container *ngIf="(dataUser | async)?.isadmin">

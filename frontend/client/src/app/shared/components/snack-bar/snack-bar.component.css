@@ -1,5 +1,21 @@
 .snack-bar {
     width: 300px;
-    height: 150px;
     font-size: 18px;
+}
+
+.title {
+    font-size: 18px;
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.message {
+    font-size: 16px;
+    margin-bottom: 0px;
+    text-align: left;
+}
+
+.list {
+    text-align: left;
+    font-size: 16px;
 }

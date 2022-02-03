@@ -1,3 +1,17 @@
-<span class="snack-bar">
-    {{data}}
-</span>
+<ng-container *ngIf="data.title == ''">
+    <span class="snack-bar">
+        {{data.message}}
+    </span>    
+</ng-container>
+
+
+<ng-container *ngIf="data.title !== ''">
+    <span class="snack-bar">
+        <h1 class="title">{{data.title}}</h1>
+        <p class="message">{{data.message}}</p>
+        <ul class="list" *ngFor="let order of data.orders">
+            <li>{{order.title}}</li>
+        </ul>
+        <button mat-flat-button color="primary" (click)="snackBarRef.dismiss()">Ok</button>
+    </span>
+</ng-container>

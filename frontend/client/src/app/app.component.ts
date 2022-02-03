@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
+//NgRx
 import { Store } from '@ngrx/store';
 import { AppState } from './store/app.state';
 import { getLoading } from './store/shared/shared.selector';
 import { isAuthenticated } from './state/auth/auth.selector';
 import { autoSignIn } from './state/auth/auth.actions';
-import { loadCart } from './state/cart/cart.actions';
+
 
 @Component({
   selector: 'app-root',

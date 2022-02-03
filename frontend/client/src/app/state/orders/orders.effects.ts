@@ -1,7 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
 import { filter, map, mergeMap, switchMap } from "rxjs/operators";
-import Swal from 'sweetalert2';
 
 //Servicio api_películas
 import { OrderService } from "src/app/services/order.service";
@@ -20,8 +18,7 @@ export class OrdersEffects {
     constructor(
         private actions$: Actions,
         private _ordeService: OrderService,
-        private _authService: AuthService,
-        private router: Router
+        private _authService: AuthService
     ) {}
 
     //effect Obtener Pedidos
@@ -51,25 +48,6 @@ export class OrdersEffects {
             })
         );
     });
-
-    /*
-    //effect navegar después de Crear película
-    addMovieRedirect$ = createEffect(() => {
-        return this.actions$.pipe(
-            ofType(addMovieSuccess), 
-            map((action) => {
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Nueva película agregada',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-                this.router.navigate(['/admin/list']);
-            })
-        );
-    }, 
-    { dispatch: false});*/
 
     //Obtener un pedido por id
     getSingleOrder$ = createEffect(() => {

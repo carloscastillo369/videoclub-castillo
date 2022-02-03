@@ -4,9 +4,6 @@ import { Subscription } from 'rxjs';
 //Interfaz de película
 import { MovieI } from 'src/app/core/interfaces/movie.interface';
 
-//Servico de carrito
-import { CartService } from 'src/app/services/cart.service';
-
 //NgRx
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
@@ -34,10 +31,7 @@ export class DetailMoviePageComponent implements OnInit, OnDestroy {
   //Variable para suscribirse y desuscribirse a un observable
   private subscription: Subscription = new Subscription();
 
-  constructor(
-    private store: Store<AppState>,
-    private _cartService: CartService
-  ) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
     this.getMovie();

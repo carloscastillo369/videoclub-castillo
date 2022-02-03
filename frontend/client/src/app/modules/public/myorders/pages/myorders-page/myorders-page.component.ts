@@ -19,7 +19,7 @@ import { loadMyOrders } from 'src/app/state/orders/orders.actions';
 export class MyordersPageComponent implements OnInit, OnDestroy {
 
   //Variable de pedidos de un usuario
-  public myOrders!: MyOrderI[];
+  public myOrders!: MyOrderI[] | null;
 
   //Variable para suscribirse y desuscribirse a un observable
   private subscription: Subscription = new Subscription();

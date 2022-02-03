@@ -10,6 +10,7 @@ import { CheckoutPageComponent } from './pages/checkout-page/checkout-page.compo
 //NgRx
 import { EffectsModule } from '@ngrx/effects';
 import { UserEffects } from 'src/app/state/user/user.effects';
+import { OrdersEffects } from 'src/app/state/orders/orders.effects';
 
 
 @NgModule({
@@ -22,7 +23,7 @@ import { UserEffects } from 'src/app/state/user/user.effects';
     MaterialModule,
     SharedModule,
     FlexLayoutModule,
-    EffectsModule.forFeature([UserEffects])
+    EffectsModule.forFeature([UserEffects, OrdersEffects])
   ]
 })
 export class CheckoutModule { }

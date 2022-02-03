@@ -3,10 +3,10 @@ import { MyOrderI } from "src/app/core/interfaces/myorder.interface";
 
 export interface OrdersState {
     orders: UserOrderI[];
-    myorders: MyOrderI[];
+    myorders: MyOrderI[] | null;
 }
 
 export const initialState: OrdersState = {
     orders: [],
-    myorders: []
+    myorders: null
 }

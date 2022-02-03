@@ -11,14 +11,14 @@ import { AppComponent } from './app.component';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { HttpConfigInterceptor } from './interceptors/httpConfigInterceptor';
 
-//ngRx
+//NgRx
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { environment } from 'src/environments/environment';
 import { appReducer } from './store/app.state';
 import { AuthEffects } from './state/auth/auth.effects';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { CustomSerializer } from './store/router/custom-serializer';
 
 

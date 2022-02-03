@@ -1,32 +1,32 @@
 <div class="order-container">
-    <button mat-raised-button color="primary" routerLink="/admin/orders">
-      <mat-icon>arrow_back</mat-icon> Regresar
-    </button>
-    
-    <div *ngIf="orders" fxLayout="row wrap" fxLayoutAlign="space-between" class="orders-content">
-      <div fxFlex="100" fxFlex.gt-sm="30" class="personal-data">
-        <div class="data">
-          <h3 class="text-bold">Datos Personales:</h3>
-          <mat-divider></mat-divider>
-          <p class="text-title">Nombre: <span class="text-subtitle">{{orders.user.name}}</span> </p>
-          <p class="text-title">Email: <span class="text-subtitle">{{orders.user.email}}</span> </p>
-          <p class="text-title">Dirección: <span class="text-subtitle">{{orders.user.address}}</span> </p>
-          <p class="text-title">Teléfono: <span class="text-subtitle">{{orders.user.phone}}</span> </p>
-        </div>
+  <button mat-raised-button color="primary" routerLink="/admin/orders">
+    <mat-icon>arrow_back</mat-icon> Regresar
+  </button>
+   
+  <div *ngIf="orders" fxLayout="row wrap" fxLayoutAlign="space-between" class="orders-content">
+    <div fxFlex="100" fxFlex.gt-sm="30" class="personal-data">
+      <div class="data">
+        <h3 class="text-bold">Datos Personales:</h3>
+        <mat-divider></mat-divider>
+        <p class="text-title">Nombre: <span class="text-subtitle">{{orders.user.name}}</span> </p>
+        <p class="text-title">Email: <span class="text-subtitle">{{orders.user.email}}</span> </p>
+        <p class="text-title">Dirección: <span class="text-subtitle">{{orders.user.address}}</span> </p>
+        <p class="text-title">Teléfono: <span class="text-subtitle">{{orders.user.phone}}</span> </p>
       </div>
+    </div>
   
-      <div xFlex="100" fxFlex.gt-sm="69" class="orders-table-container">
-        <div class="orders-table">
-          <h3 class="text-bold">Lista de pedido</h3>
-          <mat-divider></mat-divider>
-      
-          <app-orders-table [orders]="orders.order"></app-orders-table>
-          
-          <div class="total-price">
-            <h3 class="text-bold">Total a Pagar: $ {{total.toFixed(2)}}</h3>
-          </div>
+    <div xFlex="100" fxFlex.gt-sm="69" class="orders-table-container">
+      <div class="orders-table">
+        <h3 class="text-bold">Lista de pedido</h3>
+        <mat-divider></mat-divider>
+    
+        <app-orders-table [orders]="orders.order"></app-orders-table>
+        
+        <div class="total-price">
+          <h3 class="text-bold">Total a Pagar: $ {{total.toFixed(2)}}</h3>
         </div>
       </div>
     </div>
   </div>
+</div>
   

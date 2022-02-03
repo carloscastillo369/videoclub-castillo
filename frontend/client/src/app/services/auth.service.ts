@@ -10,6 +10,8 @@ import { NewUserI, RegisteredUserI } from 'src/app/core/interfaces/user.interfac
 
 //Interfaz de respuesta al signin y al signout
 import { GetDataUserResponseI, SignInResponseI, SignUpResponseI } from 'src/app/core/interfaces/authResponse.interface';
+
+//Servicio de carrito
 import { CartService } from './cart.service';
 
 
@@ -68,7 +70,7 @@ export class AuthService {
     }
   }
 
-  messageTokenExpired() {
+  getMessageTokenExpired() {
     return this.messageTokenExpired$.asObservable();
   }
 

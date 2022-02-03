@@ -55,7 +55,7 @@ a {
 }
 
 .btn-user {
-    margin-left: 16px;
+    margin: 0px 16px;
 }
 
 @media (min-width: 600px){

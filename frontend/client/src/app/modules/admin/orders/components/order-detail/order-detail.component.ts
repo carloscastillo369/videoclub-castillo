@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 //Interfaz de pedido de la base de datos
@@ -9,6 +8,7 @@ import { UserOrderI } from 'src/app/core/interfaces/user-order.interface';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/store/app.state';
 import { getOrderById } from 'src/app/state/orders/orders.selector';
+
 
 @Component({
   selector: 'app-order-detail',
@@ -29,9 +29,7 @@ export class OrderDetailComponent implements OnInit {
   //Variable para suscribirse y desuscribirse a un observable
   private subscription: Subscription = new Subscription();
 
-  constructor(
-    private store: Store<AppState>,
-  ) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
     this.getOrder();

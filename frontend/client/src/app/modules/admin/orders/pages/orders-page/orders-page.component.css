@@ -1,5 +1,5 @@
 .order-container {
-    padding: 20px;
+    padding: 20px 5px;
 }
 
 .orders-list {
@@ -7,7 +7,7 @@
     margin: 0 auto;
     border: 1px solid rgba(216, 210, 210, 0.788);
     border-radius: 10px;
-    padding: 20px 50px;
+    padding: 20px 5px;
 }
 
 table {
@@ -15,30 +15,37 @@ table {
 }
 
 .btn-delete {
-    margin-right: 30px;
+    margin-right: 10px;
 }
 
 .buttons-container-mobile {
+    width: 40px;
+}
+
+.buttons-container-web {
     display: none;
 }
 
-@media(max-width:700px){
-    .orders-list {
-        padding: 20px 5px;
-    }
-}
-
-@media(max-width:599px){
+@media(min-width: 600px){
     .buttons-container-mobile {
-        display: block;
-        width: 40px;
-    }
-
-    .buttons-container-web {
         display: none;
     }
 
+    .buttons-container-web {
+        display: block;
+    }
+
     .btn-delete {
-        margin-right: 10px;
+        margin-right: 30px;
+    }
+}
+
+@media(min-width: 700px){
+    .order-container {
+        padding: 20px;
+    }
+
+    .orders-list {
+        padding: 20px 50px;
     }
 }

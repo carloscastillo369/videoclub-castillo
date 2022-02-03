@@ -73,8 +73,11 @@ export class ModalRentalTimeComponent implements OnInit {
         this.addItemToCart(itemCart);
       } else {
           this.snackBar.openFromComponent( SnackBarComponent, {
-            data: 'Esta película ya no está disponible',
-            duration: this.duration*1000,
+            data: {
+              title: '',
+              message: 'Esta película ya no está disponible'
+            },
+            duration: this.duration*1200,
             verticalPosition: this.verticalPosition,
             horizontalPosition: this.horizontalPosition,
             panelClass: 'error'
