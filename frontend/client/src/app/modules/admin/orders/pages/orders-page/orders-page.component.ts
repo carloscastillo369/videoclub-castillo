@@ -51,7 +51,7 @@ export class OrdersPageComponent implements OnInit {
         let users: DataUserI[] = [];
         res.forEach((elem:any) => {
           let user =  {
-            _id: elem._id,
+            id: elem._id,
             ...elem.user
           }
           users.push(user)

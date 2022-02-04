@@ -46,6 +46,8 @@ export class OrderDetailComponent implements OnInit {
       this.store.select(getOrderById).subscribe(res => {
         if(res) {
           this.orders = res;
+          console.log(this.orders);
+          
           this.total = this.CalcTotal(this.orders.order);
         }
       })

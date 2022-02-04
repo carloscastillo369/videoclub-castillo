@@ -49,6 +49,7 @@ export class DetailMoviePageComponent implements OnInit, OnDestroy {
         if(res) {
           this.movie = res;
           this.isMovieInCart(this.movie);
+          this.MinToHour(this.movie.runtime);
         }
       })
     );
