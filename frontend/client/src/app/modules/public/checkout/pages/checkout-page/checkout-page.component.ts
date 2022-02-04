@@ -117,7 +117,7 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
         title: '',
         message: 'Procesando tu compra...'
       },
-      duration: this.duration*1000,
+      duration: this.duration*2000,
       verticalPosition: this.verticalPosition,
       horizontalPosition: this.horizontalPosition,
       panelClass: 'processing'
@@ -169,7 +169,7 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
         })
         this.router.navigate(['/public/cart']); //Se navega hacia el cart, para que el usuario verifique los cambios        
       }
-    }, 300); //Tiempo para que se carguen los datos en la variable availableMovies
+    }, 2000); //Tiempo para que se carguen los datos en la variable availableMovies
   }
 
   //Reducir el stock en la base de datos
